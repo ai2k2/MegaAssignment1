@@ -219,3 +219,29 @@ Property | Data Type | Allowed Value | Required
 tx_id | String | Any String | Yes
 tx_type | String | `'INCOME'` | Yes
 timestamp | String | ISO 8601 DateTime String | Yes
+income_code | String | Any String | Yes
+income_amount | String | Any String | Yes
+fee_tx_ids | Array | Array of Strings | No
+
+##### Lost
+
+Property | Data Type | Allowed Value | Required
+------------ | ------------- | ------------- | -------------
+tx_id | String | Any String | Yes
+tx_type | String | `'LOST'` | Yes
+timestamp | String | ISO 8601 DateTime String | Yes
+lost_code | String | Any String | Yes
+lost_amount | String | Any String | Yes
+fee_tx_ids | Array | Array of Strings | No
+
+### Prices
+
+Prices are required for transactions that use any asset other than the localCurrency. Please reference `types.ts` for the Price object type definition.
+
+Property | Data Type | Allowed Value | Required
+------------ | ------------- | ------------- | -------------
+tx_id | String | Any String | Yes
+timestamp | String | ISO 8601 DateTime String | Yes
+base_code | String | Any String | Yes
+quote_code | String | Any String | Yes
+price | String | Any String | Yes
