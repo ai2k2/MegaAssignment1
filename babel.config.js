@@ -10,4 +10,7 @@ module.exports = {
        * 
        * Note:
        * This library (serverless-pg) does not currently require polyfills
-       * but it may in th
+       * but it may in the future. When a polyfill for node 8 is needed,
+       * a polyfill dependency will need to be added (such as
+       * @babel/polyfill or core-js/stable.
+       * See https://bab
