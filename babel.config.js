@@ -13,4 +13,10 @@ module.exports = {
        * but it may in the future. When a polyfill for node 8 is needed,
        * a polyfill dependency will need to be added (such as
        * @babel/polyfill or core-js/stable.
-       * See https://bab
+       * See https://babeljs.io/docs/en/babel-polyfill).
+       * 
+       */
+      useBuiltIns: 'usage',
+      /*
+       * corejs - This option only has an effect when used alongside
+       * useBuiltIns: usage or use
