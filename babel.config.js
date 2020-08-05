@@ -19,4 +19,10 @@ module.exports = {
       useBuiltIns: 'usage',
       /*
        * corejs - This option only has an effect when used alongside
-       * useBuiltIns: usage or use
+       * useBuiltIns: usage or useBuiltIns: entry, and ensures
+       * @babel/preset-env injects the correct imports for your
+       * core-js version.
+       */
+      corejs: 2,
+      /*
+       * modules: 'auto' (default) which will au
