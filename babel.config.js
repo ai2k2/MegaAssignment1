@@ -27,4 +27,13 @@ module.exports = {
       /*
        * modules: 'auto' (default) which will automatically select 'false' if the current 
        * process is known to support ES module syntax, or "commonjs" otherwise.
-       * When targeting node v8, transformations from ES mod
+       * When targeting node v8, transformations from ES module syntax to module.exports
+       * will occur.
+       */
+      modules: 'auto',
+    }],
+    "@babel/typescript"
+  ],
+  plugins: [
+    "@babel/plugin-proposal-object-rest-spread",
+    "@babel/plugin-proposal-class-pr
