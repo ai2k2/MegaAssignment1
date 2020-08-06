@@ -25,4 +25,6 @@ module.exports = {
        */
       corejs: 2,
       /*
-       * modules: 'auto' (default) which will au
+       * modules: 'auto' (default) which will automatically select 'false' if the current 
+       * process is known to support ES module syntax, or "commonjs" otherwise.
+       * When targeting node v8, transformations from ES mod
