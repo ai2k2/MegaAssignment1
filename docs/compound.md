@@ -16,4 +16,8 @@ fee_tx_ids | Array | Array of Strings | No
 
 ##### Borrow
 
-Property | Data Type | Allowed Value | Re
+Property | Data Type | Allowed Value | Required
+------------ | ------------- | ------------- | -------------
+tx_id | String | Any String | Yes
+tx_type | String | `'COMPOUND_BORROW'` | Yes
+timestamp | String | ISO 8601 DateTime Stri
