@@ -27,4 +27,8 @@ fee_tx_ids | Array | Array of Strings | No
 
 ##### Redeem
 
-Property | Data Type | Allowed Value | Requir
+Property | Data Type | Allowed Value | Required
+------------ | ------------- | ------------- | -------------
+tx_id | String | Any String | Yes
+tx_type | String | `'COMPOUND_REDEEM'` | Yes
+timestamp | String | ISO 8601 DateTime
