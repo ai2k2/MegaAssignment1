@@ -36,4 +36,10 @@ c_token_code | String | Any String | Yes
 c_token_amount | String | Any String | Yes
 redeem_code | String | Any String | Yes
 redeem_amount | String | Any String | Yes
-fee
+fee_tx_ids | Array | Array of Strings | No
+
+##### Repay Borrow
+
+Property | Data Type | Allowed Value | Required
+------------ | ------------- | ------------- | -------------
+tx_
