@@ -31,4 +31,9 @@ Property | Data Type | Allowed Value | Required
 ------------ | ------------- | ------------- | -------------
 tx_id | String | Any String | Yes
 tx_type | String | `'COMPOUND_REDEEM'` | Yes
-timestamp | String | ISO 8601 DateTime
+timestamp | String | ISO 8601 DateTime String | Yes
+c_token_code | String | Any String | Yes
+c_token_amount | String | Any String | Yes
+redeem_code | String | Any String | Yes
+redeem_amount | String | Any String | Yes
+fee
