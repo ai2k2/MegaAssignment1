@@ -46,4 +46,10 @@ tx_id | String | Any String | Yes
 tx_type | String | `'COMPOUND_REPAYBORROW'` | Yes
 timestamp | String | ISO 8601 DateTime String | Yes
 repay_code | String | Any String | Yes
-repay_amount | Strin
+repay_amount | String | Any String | Yes
+fee_tx_ids | Array | Array of Strings | No
+
+##### Liquidate Borrow, Borrower Impact
+
+Property | Data Type | Allowed Value | Required
+------------ | ------------- | ------------- | 
