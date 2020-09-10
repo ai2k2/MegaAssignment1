@@ -56,4 +56,11 @@ Property | Data Type | Allowed Value | Required
 tx_id | String | Any String | Yes
 tx_type | String | `'COMPOUND_LIQUIDATEBORROW_BORROWER'` | Yes
 timestamp | String | ISO 8601 DateTime String | Yes
-liquidate_code | String 
+liquidate_code | String | Any String | Yes
+liquidate_amount | String | Any String | Yes
+fee_tx_ids | Array | Array of Strings | No
+
+##### Liquidate Borrow, Liquidator Impact
+
+Property | Data Type | Allowed Value | Required
+------------ | 
