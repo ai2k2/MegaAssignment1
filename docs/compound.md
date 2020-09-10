@@ -63,4 +63,8 @@ fee_tx_ids | Array | Array of Strings | No
 ##### Liquidate Borrow, Liquidator Impact
 
 Property | Data Type | Allowed Value | Required
------------- | 
+------------ | ------------- | ------------- | -------------
+tx_id | String | Any String | Yes
+tx_type | String | `'COMPOUND_LIQUIDATEBORROW_LIQUIDATOR'` | Yes
+timestamp | String | ISO 8601 DateTime String | Yes
+repay_co
