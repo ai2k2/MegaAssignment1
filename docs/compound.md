@@ -71,4 +71,4 @@ repay_code | String | Any String | Yes
 repay_amount | String | Any String | Yes
 seize_code | String | Any String | Yes
 seize_amount | String | Any String | Yes
-fee_tx_ids | Array | Array of S
+fee_tx_ids | Array | Array of Strings | No
