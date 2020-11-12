@@ -100,4 +100,12 @@ module.exports = {
   // reporters: undefined,
 
   // Automatically reset mock state between every test
-  // 
+  // resetMocks: false,
+
+  // Reset the module registry before running each individual test
+  // resetModules: false,
+
+  // A path to a custom resolver
+  // resolver: null,
+
+  // Au
