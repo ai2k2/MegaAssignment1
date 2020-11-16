@@ -114,4 +114,11 @@ module.exports = {
   // The root directory that Jest should scan for tests and modules within
   // rootDir: null,
 
-  // A list of paths to d
+  // A list of paths to directories that Jest should use to search for files in
+  // roots: [
+  //   "<rootDir>"
+  // ],
+
+  // Allows you to use a custom runner instead of Jest's default test runner
+  // runner: "jest-runner",
+
