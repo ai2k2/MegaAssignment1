@@ -108,4 +108,10 @@ module.exports = {
   // A path to a custom resolver
   // resolver: null,
 
-  // Au
+  // Automatically restore mock state between every test
+  // restoreMocks: false,
+
+  // The root directory that Jest should scan for tests and modules within
+  // rootDir: null,
+
+  // A list of paths to d
