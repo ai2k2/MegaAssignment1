@@ -137,4 +137,10 @@ module.exports = {
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},
 
-  // Adds a location field to t
+  // Adds a location field to test results
+  // testLocationInResults: false,
+
+  // The glob patterns Jest uses to detect test files
+  // testMatch: [
+  //   "**/__tests__/**/*.[jt]s?(x)",
+  //   "**/?(*.)+(spec|test).[tj]s?(x)
