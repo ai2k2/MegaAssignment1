@@ -151,4 +151,10 @@ module.exports = {
   //   "/node_modules/"
   // ],
 
-  // The rege
+  // The regexp pattern or array of patterns that Jest uses to detect test files
+  // testRegex: [],
+
+  // This option allows the use of a custom results processor
+  // testResultsProcessor: null,
+
+  //
