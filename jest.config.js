@@ -176,4 +176,9 @@ module.exports = {
   ],
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
-  // unmockedModu
+  // unmockedModulePathPatterns: undefined,
+
+  // Indicates whether each individual test should be reported during the run
+  // verbose: null,
+
+  // An array of regexp patterns that are matched against all source file paths b
