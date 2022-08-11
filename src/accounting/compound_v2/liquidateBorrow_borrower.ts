@@ -8,4 +8,12 @@ import { lotsAndDisposalsFromWithdrawal } from '../generic/withdrawal';
  *
  * Creates Disposals associated with a compound COMPOUND_LIQUIDATEBORROW_BORROWER.
  */
-export const lotsAndDisposalsFromCompoundLiquidate
+export const lotsAndDisposalsFromCompoundLiquidateBorrower = ({
+  txId,
+  transactionsMap,
+  pricesMap,
+  priceMethod,
+  localCurrency
+}: GenericTransformOptions) => {
+  const transaction = transactionsMap.get(txId);
+  const updatedTransaction
