@@ -16,4 +16,10 @@ export const lotsAndDisposalsFromCompoundLiquidateBorrower = ({
   localCurrency
 }: GenericTransformOptions) => {
   const transaction = transactionsMap.get(txId);
-  const updatedTransaction
+  const updatedTransactionsMap = transactionsMap.set(
+    txId,
+    IMap({
+      tx_id: transaction.get('tx_id'),
+      tx_type: 'WITHDRAWAL',
+      timestamp: transaction.get('timestamp'),
+      withdrawal_code: transaction
