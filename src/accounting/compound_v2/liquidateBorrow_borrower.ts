@@ -30,4 +30,9 @@ export const lotsAndDisposalsFromCompoundLiquidateBorrower = ({
   return lotsAndDisposalsFromWithdrawal({
     txId,
     transactionsMap: updatedTransactionsMap,
-  
+    pricesMap,
+    priceMethod,
+    localCurrency,
+    isCompoundLiquidated: true
+  });
+};
