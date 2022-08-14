@@ -22,4 +22,12 @@ export const lotsAndDisposalsFromCompoundLiquidateBorrower = ({
       tx_id: transaction.get('tx_id'),
       tx_type: 'WITHDRAWAL',
       timestamp: transaction.get('timestamp'),
-      withdrawal_code: transaction
+      withdrawal_code: transaction.get('liquidate_code'),
+      withdrawal_amount: transaction.get('liquidate_amount'),
+      fee_tx_ids: transaction.get('fee_tx_ids', List())
+    })
+  );
+  return lotsAndDisposalsFromWithdrawal({
+    txId,
+    transactionsMap: updatedTransactionsMap,
+  
