@@ -9,4 +9,7 @@ import { transactionUnixNumber, getPriceBigNumber } from '../helpers';
 /*
  * COMPOUND_LIQUIDATEBORROW_LIQUIDATOR
  *
- * Creates TaxLots and Dispos
+ * Creates TaxLots and Disposals associated with a compound COMPOUND_LIQUIDATEBORROW_LIQUIDATOR.
+ * Liquidating someone results in:
+ * - spending (the amount used to repay another users position)
+ * - deposit (the cTokens transferred to th
