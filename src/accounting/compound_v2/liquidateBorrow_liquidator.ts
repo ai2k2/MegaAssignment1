@@ -12,4 +12,10 @@ import { transactionUnixNumber, getPriceBigNumber } from '../helpers';
  * Creates TaxLots and Disposals associated with a compound COMPOUND_LIQUIDATEBORROW_LIQUIDATOR.
  * Liquidating someone results in:
  * - spending (the amount used to repay another users position)
- * - deposit (the cTokens transferred to th
+ * - deposit (the cTokens transferred to the liquidator)
+ *
+ * Notes:
+ * base asset: the asset used for repayment of another user's position
+ * quote asset: the cTokens transferred to the liquidator
+ */
+export const lotsAndDisposalsFromCompoundLiquid
