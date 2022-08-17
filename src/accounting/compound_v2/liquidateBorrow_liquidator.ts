@@ -25,4 +25,10 @@ export const lotsAndDisposalsFromCompoundLiquidateLiquidator = ({
   localCurrency
 }: GenericTransformOptions) => {
   const transactionPrices = pricesMap.get(txId);
-  const transaction = transactionsMap.get(tx
+  const transaction = transactionsMap.get(txId);
+  const unixNumber = transactionUnixNumber(transaction);
+
+  /*
+   * (1) Get the amount used to repay the original borrowers position
+   */
+  const withdrawalCode = transaction.get('repay_code').toUpperCase()
