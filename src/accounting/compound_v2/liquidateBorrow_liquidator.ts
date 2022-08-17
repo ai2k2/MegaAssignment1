@@ -31,4 +31,7 @@ export const lotsAndDisposalsFromCompoundLiquidateLiquidator = ({
   /*
    * (1) Get the amount used to repay the original borrowers position
    */
-  const withdrawalCode = transaction.get('repay_code').toUpperCase()
+  const withdrawalCode = transaction.get('repay_code').toUpperCase();
+  let withdrawalAmount = new BigNumber(transaction.get('repay_amount'));
+  const withdrawalPrice = getPriceBigNumber(transactionPrices, withdrawalCode, localCurrency);
+  let proceedsAmount = w
