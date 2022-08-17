@@ -18,4 +18,11 @@ import { transactionUnixNumber, getPriceBigNumber } from '../helpers';
  * base asset: the asset used for repayment of another user's position
  * quote asset: the cTokens transferred to the liquidator
  */
-export const lotsAndDisposalsFromCompoundLiquid
+export const lotsAndDisposalsFromCompoundLiquidateLiquidator = ({
+  txId,
+  transactionsMap,
+  pricesMap,
+  localCurrency
+}: GenericTransformOptions) => {
+  const transactionPrices = pricesMap.get(txId);
+  const transaction = transactionsMap.get(tx
