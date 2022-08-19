@@ -43,4 +43,13 @@ export const lotsAndDisposalsFromCompoundLiquidateLiquidator = ({
   const disposals = List([
     new Disposal({
       unix: unixNumber,
-      assetCode
+      assetCode: withdrawalCode,
+      assetAmount: withdrawalAmount,
+      proceedsCode: localCurrency,
+      proceedsAmount: proceedsAmount,
+      transactionId: txId
+    })
+  ]);
+
+  /*
+   * (3) Get the seized token
