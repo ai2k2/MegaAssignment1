@@ -34,4 +34,13 @@ export const lotsAndDisposalsFromCompoundLiquidateLiquidator = ({
   const withdrawalCode = transaction.get('repay_code').toUpperCase();
   let withdrawalAmount = new BigNumber(transaction.get('repay_amount'));
   const withdrawalPrice = getPriceBigNumber(transactionPrices, withdrawalCode, localCurrency);
-  let proceedsAmount = w
+  let proceedsAmount = withdrawalAmount.times(withdrawalPrice);
+
+  /*
+   * (2) Determine Disposal values from the liquidation
+   */
+
+  const disposals = List([
+    new Disposal({
+      unix: unixNumber,
+      assetCode
