@@ -52,4 +52,8 @@ export const lotsAndDisposalsFromCompoundLiquidateLiquidator = ({
   ]);
 
   /*
-   * (3) Get the seized token
+   * (3) Get the seized token values to generate a TaxLot
+   */
+  const lotCode = transaction.get('seize_code').toUpperCase();
+  let lotAmount = new BigNumber(transaction.get('seize_amount'));
+  const depositPric
