@@ -56,4 +56,10 @@ export const lotsAndDisposalsFromCompoundLiquidateLiquidator = ({
    */
   const lotCode = transaction.get('seize_code').toUpperCase();
   let lotAmount = new BigNumber(transaction.get('seize_amount'));
-  const depositPric
+  const depositPrice = getPriceBigNumber(transactionPrices, lotCode, localCurrency);
+  let basisAmount = lotAmount.times(depositPrice);
+
+  const taxLots = List([
+    new TaxLot({
+      unix: unixNumber,
+      assetCode: lotCode
