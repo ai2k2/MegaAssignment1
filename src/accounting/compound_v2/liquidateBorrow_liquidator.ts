@@ -62,4 +62,14 @@ export const lotsAndDisposalsFromCompoundLiquidateLiquidator = ({
   const taxLots = List([
     new TaxLot({
       unix: unixNumber,
-      assetCode: lotCode
+      assetCode: lotCode,
+      assetAmount: lotAmount,
+      basisCode: localCurrency,
+      basisAmount: basisAmount,
+      transactionId: txId
+    })
+  ]);
+
+  return IMap({
+    taxLots: taxLots,
+    disposa
