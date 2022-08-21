@@ -72,4 +72,6 @@ export const lotsAndDisposalsFromCompoundLiquidateLiquidator = ({
 
   return IMap({
     taxLots: taxLots,
-    disposa
+    disposals: disposals
+  });
+};
