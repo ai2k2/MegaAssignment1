@@ -24,4 +24,10 @@ export const lotsAndDisposalsFromCompoundRedeem = ({
   localCurrency
 }: RedeemOptions) => {
   const redeem = transactionsMap.get(txId);
-  co
+  const updatedTransactionsMap = transactionsMap.set(
+    txId,
+    IMap({
+      tx_id: redeem.get('tx_id'),
+      tx_type: 'TRADE',
+      side: 'BUY',
+      timestamp: redeem.get('timestamp'),
