@@ -34,4 +34,12 @@ export const lotsAndDisposalsFromCompoundRedeem = ({
       base_code: redeem.get('redeem_code'),
       base_amount: redeem.get('redeem_amount'),
       quote_code: redeem.get('c_token_code'),
-      quote_amount: redeem.get('
+      quote_amount: redeem.get('c_token_amount'),
+      fee_tx_ids: redeem.get('fee_tx_ids', List())
+    })
+  );
+  return lotsAndDisposalsFromTrade({
+    txId,
+    transactionsMap: updatedTransactionsMap,
+    pricesMap,
+  
