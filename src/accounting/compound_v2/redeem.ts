@@ -16,4 +16,12 @@ export interface RedeemOptions {
  *
  * Creates Lots and Disposals associated with a compound REDEEM.
  */
-export
+export const lotsAndDisposalsFromCompoundRedeem = ({
+  txId,
+  transactionsMap,
+  pricesMap,
+  priceMethod,
+  localCurrency
+}: RedeemOptions) => {
+  const redeem = transactionsMap.get(txId);
+  co
