@@ -31,3 +31,7 @@ export const lotsAndDisposalsFromCompoundRedeem = ({
       tx_type: 'TRADE',
       side: 'BUY',
       timestamp: redeem.get('timestamp'),
+      base_code: redeem.get('redeem_code'),
+      base_amount: redeem.get('redeem_amount'),
+      quote_code: redeem.get('c_token_code'),
+      quote_amount: redeem.get('
