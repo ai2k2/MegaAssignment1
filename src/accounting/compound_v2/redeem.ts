@@ -42,4 +42,10 @@ export const lotsAndDisposalsFromCompoundRedeem = ({
     txId,
     transactionsMap: updatedTransactionsMap,
     pricesMap,
-  
+    priceMethod,
+    localCurrency,
+    // We mark gains as interest income. Instead of inserting gains
+    // in "short" or "long", it's inserted into "interest_income"
+    gainsAsInterestIncome: true
+  });
+};
