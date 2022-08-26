@@ -83,3 +83,34 @@ export const lotsAndDisposalsFromTrade = ({
   const lotAmount = new BigNumber(transaction.get(`${lotSide}_amount`));
   const taxLots = List([
     new TaxLot({
+      unix: unixNumber,
+      assetCode: lotCode,
+      assetAmount: lotAmount,
+      basisCode: localCurrency,
+      basisAmount: basisAmount,
+      transactionId: txId,
+      isIncome: false
+    })
+  ]);
+
+  // (4) Determine Disposal values.
+  const disposalSide = isSell ? 'base' : 'quote';
+  const disposalCode = transaction.get(`${disposalSide}_code`).toUpperCase();
+  const disposalAmount = new BigNumber(transaction.get(`${disposalSide}_amount`));
+  const disposals = List([
+    new Disposal({
+      unix: unixNumber,
+      assetCode: disposalCode,
+      assetAmount: disposalAmount,
+      proceedsCode: localCurrency,
+      proceedsAmount: proceedsAmount,
+      transactionId: txId,
+      gainsAsInterestIncome
+    })
+  ]);
+
+  return IMap({
+    taxLots: taxLots,
+    disposals: disposals
+  });
+};
