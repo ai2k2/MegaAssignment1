@@ -14,4 +14,14 @@ import { getFeeAmount } from '../fee';
  *
  * USE CASES:
  * Fiat: withdraw cash cash from portfolio.
- * Captial asset: spe
+ * Captial asset: spending, gift.
+ */
+export const lotsAndDisposalsFromWithdrawal = ({
+  txId,
+  pricesMap,
+  transactionsMap,
+  localCurrency,
+  priceMethod,
+  isLost = false,
+  isBorrowRepay = false,
+  isCompoundL
