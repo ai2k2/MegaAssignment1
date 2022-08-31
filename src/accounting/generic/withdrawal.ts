@@ -24,4 +24,11 @@ export const lotsAndDisposalsFromWithdrawal = ({
   priceMethod,
   isLost = false,
   isBorrowRepay = false,
-  isCompoundL
+  isCompoundLiquidated = false
+}: {
+  txId: string;
+  pricesMap: ImmutableMap<{ string: List<Price> }>;
+  transactionsMap: ImmutableMap<{ string: List<ITransaction> }>;
+  localCurrency: LocalCurrency;
+  priceMethod: PriceMethod;
+  isLost?: bool
