@@ -36,4 +36,10 @@ export const lotsAndDisposalsFromWithdrawal = ({
   isCompoundLiquidated?: boolean;
 }) => {
   const transactionPrices = pricesMap.get(txId);
-  const transaction = transactionsMap.get(
+  const transaction = transactionsMap.get(txId);
+  const unixNumber = transactionUnixNumber(transaction);
+
+  /*
+   * (1) Get the withdrawal amount to setup initial value for proceeds.
+   */
+  const withdrawalCode 
