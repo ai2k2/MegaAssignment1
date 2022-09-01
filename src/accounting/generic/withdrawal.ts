@@ -42,4 +42,6 @@ export const lotsAndDisposalsFromWithdrawal = ({
   /*
    * (1) Get the withdrawal amount to setup initial value for proceeds.
    */
-  const withdrawalCode 
+  const withdrawalCode = transaction.get('withdrawal_code').toUpperCase();
+  let withdrawalAmount = new BigNumber(transaction.get('withdrawal_amount'));
+  const withdrawalPrice = getPriceBigNumber(transactionPrices, withdrawalCod
