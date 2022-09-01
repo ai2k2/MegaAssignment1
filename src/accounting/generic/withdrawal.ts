@@ -44,4 +44,9 @@ export const lotsAndDisposalsFromWithdrawal = ({
    */
   const withdrawalCode = transaction.get('withdrawal_code').toUpperCase();
   let withdrawalAmount = new BigNumber(transaction.get('withdrawal_amount'));
-  const withdrawalPrice = getPriceBigNumber(transactionPrices, withdrawalCod
+  const withdrawalPrice = getPriceBigNumber(transactionPrices, withdrawalCode, localCurrency);
+  let proceedsAmount = withdrawalAmount.times(withdrawalPrice);
+
+  // (2) Adjust basis or proceeds with fees.
+  // Reduce taxable gain by the value of the fees.
+  // See fee
