@@ -72,4 +72,8 @@ export const lotsAndDisposalsFromWithdrawal = ({
         transactionId: txId,
         isLost,
         isBorrowRepay,
-   
+        isCompoundLiquidated
+      })
+    ])
+  });
+};
