@@ -49,4 +49,12 @@ export const lotsAndDisposalsFromWithdrawal = ({
 
   // (2) Adjust basis or proceeds with fees.
   // Reduce taxable gain by the value of the fees.
-  // See fee
+  // See fees.tx for more info.
+  const taxableFeeAmount = getFeeAmount({
+    transaction,
+    pricesMap,
+    transactionsMap,
+    localCurrency,
+    priceMethod
+  });
+  // Since this is a withdrawal (sale), fee redu
