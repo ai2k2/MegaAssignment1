@@ -57,4 +57,13 @@ export const lotsAndDisposalsFromWithdrawal = ({
     localCurrency,
     priceMethod
   });
-  // Since this is a withdrawal (sale), fee redu
+  // Since this is a withdrawal (sale), fee reduces proceeds.
+  proceedsAmount = proceedsAmount.minus(taxableFeeAmount);
+
+  return IMap({
+    taxLots: List(),
+    disposals: List([
+      new Disposal({
+        unix: unixNumber,
+        assetCode: withdrawalCode,
+      
