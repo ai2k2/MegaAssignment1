@@ -66,4 +66,10 @@ export const lotsAndDisposalsFromWithdrawal = ({
       new Disposal({
         unix: unixNumber,
         assetCode: withdrawalCode,
-      
+        assetAmount: withdrawalAmount,
+        proceedsCode: localCurrency,
+        proceedsAmount: proceedsAmount,
+        transactionId: txId,
+        isLost,
+        isBorrowRepay,
+   
