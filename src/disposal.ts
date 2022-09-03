@@ -30,3 +30,6 @@ const DisposalRecordFactory = Record({
 
 class Disposal extends DisposalRecordFactory implements DisposalType {
   // Set computed methods here.
+}
+
+export default Disposal;
