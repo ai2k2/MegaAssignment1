@@ -6,4 +6,7 @@ import { HackedStack } from './types';
 import TaxLot from './taxLot';
 import Disposal from './disposal';
 
-export const lotSort = (lots: List<TaxLot>, costMethod: string): 
+export const lotSort = (lots: List<TaxLot>, costMethod: string): List<TaxLot> => {
+  const fifoComparator = (a: TaxLot, b: TaxLot): number => a.unix - b.unix;
+  const hifoComparator = (a: TaxLot, b: TaxLot): number =>
+    b.pricePerUnit.minus(a.pricePerUnit).toNumber(
