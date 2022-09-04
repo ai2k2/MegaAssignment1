@@ -22,4 +22,11 @@ export const lotSort = (lots: List<TaxLot>, costMethod: string): List<TaxLot> =>
   }
 };
 
-expor
+export const unmatchedDisposal = (
+  report: IMap<any, any>,
+  disposal: Disposal,
+  localCurrency: string
+): IMap<any, any> => {
+  let reportToUpdate;
+  const disposalMoment = moment.utc(disposal.unix, 'X');
+  const disposa
