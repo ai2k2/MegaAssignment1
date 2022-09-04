@@ -13,4 +13,13 @@ export const lotSort = (lots: List<TaxLot>, costMethod: string): List<TaxLot> =>
   const lifoComparator = (a: TaxLot, b: TaxLot): number => b.unix - a.unix;
   if (costMethod === 'FIFO') {
     return lots.sort(fifoComparator);
-  } else if (costMethod
+  } else if (costMethod === 'HIFO') {
+    return lots.sort(hifoComparator);
+  } else if (costMethod === 'LIFO') {
+    return lots.sort(lifoComparator);
+  } else {
+    throw new Error('No cost basis method provided.');
+  }
+};
+
+expor
