@@ -41,4 +41,12 @@ export const unmatchedDisposal = (
     tx_id_sale: disposal.transactionId
   });
 
-  // Even if the disposal represents "lost" cry
+  // Even if the disposal represents "lost" crypto
+  // or fiat, if it's not matched against a TaxLot
+  // we should know about it.
+  reportToUpdate = report.updateIn([disposalYear, 'unmatched'], (list: List<any>) =>
+    list.push(sale)
+  );
+
+  if (disposal.isLost) {
+    // we w
