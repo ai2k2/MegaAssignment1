@@ -34,4 +34,11 @@ export const unmatchedDisposal = (
   const sale = IMap({
     asset: disposal.assetCode,
     proceeds: disposal.proceedsAmount,
-    date_sold
+    date_sold: samedate,
+    cost_basis: '0',
+    asset_amount: disposal.assetAmount,
+    date_acquired: samedate,
+    tx_id_sale: disposal.transactionId
+  });
+
+  // Even if the disposal represents "lost" cry
