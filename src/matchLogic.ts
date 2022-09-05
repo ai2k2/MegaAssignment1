@@ -29,4 +29,9 @@ export const unmatchedDisposal = (
 ): IMap<any, any> => {
   let reportToUpdate;
   const disposalMoment = moment.utc(disposal.unix, 'X');
-  const disposa
+  const disposalYear = disposalMoment.format('YYYY');
+  const samedate = disposalMoment.format();
+  const sale = IMap({
+    asset: disposal.assetCode,
+    proceeds: disposal.proceedsAmount,
+    date_sold
