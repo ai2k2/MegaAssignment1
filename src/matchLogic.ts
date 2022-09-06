@@ -49,4 +49,9 @@ export const unmatchedDisposal = (
   );
 
   if (disposal.isLost) {
-    // we w
+    // we want to report lost crypto and fiat
+    // for the user to decide how to report or claim it
+    reportToUpdate = reportToUpdate.updateIn([disposalYear, 'lost'], (list: List<any>) =>
+      list.push(sale)
+    );
+  } el
