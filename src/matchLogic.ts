@@ -59,3 +59,10 @@ export const unmatchedDisposal = (
       [disposalYear, 'compound_liquidations_borrower'],
       (list: List<any> = List()) => list.push(sale)
     );
+  } else {
+    if (disposal.isBorrowRepay) {
+      reportToUpdate = reportToUpdate.updateIn(
+        [disposalYear, 'borrow_repayments'],
+        (list: List<any> = List()) => list.push(sale)
+      );
+    }
