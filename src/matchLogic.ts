@@ -54,4 +54,8 @@ export const unmatchedDisposal = (
     reportToUpdate = reportToUpdate.updateIn([disposalYear, 'lost'], (list: List<any>) =>
       list.push(sale)
     );
-  } el
+  } else if (disposal.isCompoundLiquidated) {
+    reportToUpdate = reportToUpdate.updateIn(
+      [disposalYear, 'compound_liquidations_borrower'],
+      (list: List<any> = List()) => list.push(sale)
+    );
