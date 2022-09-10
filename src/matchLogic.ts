@@ -74,4 +74,12 @@ export const unmatchedDisposal = (
       if (disposal.gainsAsInterestIncome) {
         reportCategory = 'interest_income';
       }
-      reportToUpdate = reportToUpdate.updateIn(
+      reportToUpdate = reportToUpdate.updateIn([disposalYear, reportCategory], (list: List<any>) =>
+        list.push(sale)
+      );
+    }
+  }
+
+  return IMap({
+    report: reportToUpdate,
+    disposal: disposal.set('assetAmount', new BigNumber(0)
