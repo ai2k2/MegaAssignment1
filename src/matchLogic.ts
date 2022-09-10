@@ -82,4 +82,14 @@ export const unmatchedDisposal = (
 
   return IMap({
     report: reportToUpdate,
-    disposal: disposal.set('assetAmount', new BigNumber(0)
+    disposal: disposal.set('assetAmount', new BigNumber(0)).set('proceedsAmount', new BigNumber(0))
+  });
+};
+
+export const exhaustLot = (
+  report: IMap<any, any>,
+  disposal: Disposal,
+  lotStack: HackedStack<TaxLot>,
+  localCurrency: string
+): IMap<any, any> => {
+  let currentRep
