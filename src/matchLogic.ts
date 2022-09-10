@@ -66,3 +66,7 @@ export const unmatchedDisposal = (
         (list: List<any> = List()) => list.push(sale)
       );
     }
+    // sales and resulting capital gain or loss only applies
+    // to crypto not fiat
+    // TODO: should exempt all fiat not just users local currency.
+    if (disposal.assetCode !== localC
