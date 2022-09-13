@@ -92,4 +92,8 @@ export const exhaustLot = (
   lotStack: HackedStack<TaxLot>,
   localCurrency: string
 ): IMap<any, any> => {
-  let currentRep
+  let currentReport = report;
+  const lotToDiminish = lotStack.first();
+  const disposalMoment = moment.utc(disposal.unix, 'X');
+  const timeDiff = disposalMoment.diff(moment.utc(lotToDiminish.unix, 'X'));
+  const isShort = momen
