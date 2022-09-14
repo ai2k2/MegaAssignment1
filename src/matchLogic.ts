@@ -99,4 +99,9 @@ export const exhaustLot = (
   const isShort = moment.duration(timeDiff).asYears() < 1;
   const shareSold = lotToDiminish.assetAmount.dividedBy(disposal.assetAmount);
   const saleProceeds = disposal.proceedsAmount.times(shareSold);
-  const disposalYear =
+  const disposalYear = disposalMoment.format('YYYY');
+  const sale = IMap({
+    asset: disposal.assetCode,
+    proceeds: saleProceeds,
+    date_sold: moment.utc(disposal.unix, 'X').format(),
+    cost_basis: lotToDim
