@@ -104,4 +104,8 @@ export const exhaustLot = (
     asset: disposal.assetCode,
     proceeds: saleProceeds,
     date_sold: moment.utc(disposal.unix, 'X').format(),
-    cost_basis: lotToDim
+    cost_basis: lotToDiminish.basisAmount,
+    asset_amount: lotToDiminish.assetAmount,
+    date_acquired: moment.utc(lotToDiminish.unix, 'X').format(),
+    tx_id_lot: lotToDiminish.transactionId,
+    tx_id_s
