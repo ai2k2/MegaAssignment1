@@ -108,4 +108,10 @@ export const exhaustLot = (
     asset_amount: lotToDiminish.assetAmount,
     date_acquired: moment.utc(lotToDiminish.unix, 'X').format(),
     tx_id_lot: lotToDiminish.transactionId,
-    tx_id_s
+    tx_id_sale: disposal.transactionId
+  });
+
+  if (disposal.isLost) {
+    // we want to report lost crypto and fiat
+    // for the user to decide how to report or claim it
+    currentReport = currentReport.u
