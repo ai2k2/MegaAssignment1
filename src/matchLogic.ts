@@ -114,4 +114,9 @@ export const exhaustLot = (
   if (disposal.isLost) {
     // we want to report lost crypto and fiat
     // for the user to decide how to report or claim it
-    currentReport = currentReport.u
+    currentReport = currentReport.updateIn([disposalYear, 'lost'], (list: List<any>) =>
+      list.push(sale)
+    );
+  } else if (disposal.isCompoundLiquidated) {
+    currentReport = currentReport.updateIn(
+      [dispo
