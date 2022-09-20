@@ -134,4 +134,10 @@ export const exhaustLot = (
     if (disposal.gainsAsInterestIncome) {
       reportCategory = 'interest_income';
     }
-    currentReport = currentReport.u
+    currentReport = currentReport.updateIn([disposalYear, reportCategory], (list: List<any>) =>
+      list.push(sale)
+    );
+  }
+
+  const currentDisposal = disposal
+    .set('assetAmount', disposal.assetAmount.minus(lo
