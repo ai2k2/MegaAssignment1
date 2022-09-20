@@ -119,4 +119,8 @@ export const exhaustLot = (
     );
   } else if (disposal.isCompoundLiquidated) {
     currentReport = currentReport.updateIn(
-      [dispo
+      [disposalYear, 'compound_liquidations_borrower'],
+      (list: List<any> = List()) => list.push(sale)
+    );
+  } else if (disposal.assetCode !== localCurrency) {
+    if (disposal.isBorrowRepay) {
