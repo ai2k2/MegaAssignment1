@@ -129,4 +129,9 @@ export const exhaustLot = (
         (list: List<any> = List()) => list.push(sale)
       );
     }
-    // only report sale if not 
+    // only report sale if not fiat (local currency) disposal
+    let reportCategory = isShort ? 'short' : 'long';
+    if (disposal.gainsAsInterestIncome) {
+      reportCategory = 'interest_income';
+    }
+    currentReport = currentReport.u
