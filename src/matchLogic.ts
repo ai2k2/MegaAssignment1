@@ -124,3 +124,9 @@ export const exhaustLot = (
     );
   } else if (disposal.assetCode !== localCurrency) {
     if (disposal.isBorrowRepay) {
+      currentReport = currentReport.updateIn(
+        [disposalYear, 'borrow_repayments'],
+        (list: List<any> = List()) => list.push(sale)
+      );
+    }
+    // only report sale if not 
