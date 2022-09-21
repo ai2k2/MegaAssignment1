@@ -146,4 +146,14 @@ export const exhaustLot = (
   return IMap({
     report: currentReport,
     disposal: currentDisposal,
-    lotStack: lotS
+    lotStack: lotStack.pop()
+  });
+};
+
+export const exhaustDisposal = (
+  report: IMap<any, any>,
+  disposal: Disposal,
+  lotStack: HackedStack<TaxLot>,
+  localCurrency: string
+): IMap<any, any> => {
+  let cu
