@@ -162,4 +162,8 @@ export const exhaustDisposal = (
 
   const disposalMoment = moment.utc(disposal.unix, 'X');
   const timeDiff = disposalMoment.diff(moment.utc(lotToDiminish.unix, 'X'));
-  const
+  const isShort = moment.duration(timeDiff).asYears() < 1;
+
+  // lot is not exhausted
+  // you sold ALL of the remaining disposal
+  const shareLotSold = disposal.assetAmount.div
