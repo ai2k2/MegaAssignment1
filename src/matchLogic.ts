@@ -140,4 +140,10 @@ export const exhaustLot = (
   }
 
   const currentDisposal = disposal
-    .set('assetAmount', disposal.assetAmount.minus(lo
+    .set('assetAmount', disposal.assetAmount.minus(lotToDiminish.assetAmount))
+    .set('proceedsAmount', disposal.proceedsAmount.minus(saleProceeds));
+
+  return IMap({
+    report: currentReport,
+    disposal: currentDisposal,
+    lotStack: lotS
