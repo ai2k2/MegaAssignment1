@@ -174,4 +174,10 @@ export const exhaustDisposal = (
     proceeds: disposal.proceedsAmount,
     date_sold: moment.utc(disposal.unix, 'X').format(),
     cost_basis: costBasisSold,
-    asset_amount: disposal.assetAmou
+    asset_amount: disposal.assetAmount,
+    date_acquired: moment.utc(lotToDiminish.unix, 'X').format(),
+    tx_id_lot: lotToDiminish.transactionId,
+    tx_id_sale: disposal.transactionId
+  });
+
+  if (disposal.isLost) {
