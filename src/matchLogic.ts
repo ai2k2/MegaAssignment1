@@ -166,4 +166,7 @@ export const exhaustDisposal = (
 
   // lot is not exhausted
   // you sold ALL of the remaining disposal
-  const shareLotSold = disposal.assetAmount.div
+  const shareLotSold = disposal.assetAmount.dividedBy(lotToDiminish.assetAmount);
+  const costBasisSold = lotToDiminish.basisAmount.times(shareLotSold);
+  const disposalYear = disposalMoment.format('YYYY');
+  const
