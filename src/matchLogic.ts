@@ -169,4 +169,9 @@ export const exhaustDisposal = (
   const shareLotSold = disposal.assetAmount.dividedBy(lotToDiminish.assetAmount);
   const costBasisSold = lotToDiminish.basisAmount.times(shareLotSold);
   const disposalYear = disposalMoment.format('YYYY');
-  const
+  const sale = IMap({
+    asset: disposal.assetCode,
+    proceeds: disposal.proceedsAmount,
+    date_sold: moment.utc(disposal.unix, 'X').format(),
+    cost_basis: costBasisSold,
+    asset_amount: disposal.assetAmou
