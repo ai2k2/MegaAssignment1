@@ -188,4 +188,9 @@ export const exhaustDisposal = (
     currentReport = currentReport.updateIn(
       [disposalYear, 'compound_liquidations_borrower'],
       (list: List<any> = List()) => list.push(sale)
-  
+    );
+  } else if (disposal.assetCode !== localCurrency) {
+    if (disposal.isBorrowRepay) {
+      currentReport = currentReport.updateIn(
+        [disposalYear, 'borrow_repayments'],
+     
