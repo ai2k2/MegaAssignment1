@@ -193,4 +193,10 @@ export const exhaustDisposal = (
     if (disposal.isBorrowRepay) {
       currentReport = currentReport.updateIn(
         [disposalYear, 'borrow_repayments'],
-     
+        (list: List<any> = List()) => list.push(sale)
+      );
+    }
+    let reportCategory = isShort ? 'short' : 'long';
+    if (disposal.gainsAsInterestIncome) {
+      reportCategory = 'interest_income';
+   
