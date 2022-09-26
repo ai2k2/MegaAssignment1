@@ -199,4 +199,11 @@ export const exhaustDisposal = (
     let reportCategory = isShort ? 'short' : 'long';
     if (disposal.gainsAsInterestIncome) {
       reportCategory = 'interest_income';
-   
+    }
+    currentReport = currentReport.updateIn([disposalYear, reportCategory], (list: List<any>) =>
+      list.push(sale)
+    );
+  }
+
+  const lotToPush = lotToDiminish
+    .set('assetAmount', lotToDim
