@@ -194,3 +194,35 @@ const buildReportYear = (
 const matchLots = (options: {
   disposal: Disposal;
   lotsForStack: List<TaxLot>;
+  report: TaxReportYear;
+  localCurrency: string;
+}): ImmutableMap<{ lotsDepleted: List<TaxLot>; currentReport: TaxReportYear }> => {
+  const { disposal, lotsForStack, report, localCurrency } = options;
+  let currentDisposal = disposal;
+  let lotStack: HackedStack<TaxLot> = lotsForStack.toStack();
+  let currentReport = report;
+  while (currentDisposal.assetAmount > new BigNumber(0)) {
+    if (lotStack.size < 1) {
+      const res = unmatchedDisposal(currentReport, currentDisposal, localCurrency);
+      currentReport = res.get('report');
+      currentDisposal = res.get('disposal');
+    } else {
+      if (currentDisposal.assetAmount.isGreaterThanOrEqualTo(lotStack.first().assetAmount)) {
+        const res = exhaustLot(currentReport, currentDisposal, lotStack, localCurrency);
+        currentReport = res.get('report');
+        currentDisposal = res.get('disposal');
+        lotStack = res.get('lotStack');
+      } else {
+        const res = exhaustDisposal(currentReport, currentDisposal, lotStack, localCurrency);
+        currentReport = res.get('report');
+        currentDisposal = res.get('disposal');
+        lotStack = res.get('lotStack');
+      }
+    }
+  }
+
+  return IMap({
+    lotsDepleted: lotStack.toList(),
+    currentReport: currentReport
+  });
+};
