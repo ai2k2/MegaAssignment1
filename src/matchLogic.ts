@@ -210,4 +210,12 @@ export const exhaustDisposal = (
     .set('basisAmount', lotToDiminish.basisAmount.minus(costBasisSold));
 
   const currentDisposal = disposal
-    .set('assetAmount', new BigNumbe
+    .set('assetAmount', new BigNumber(0))
+    .set('proceedsAmount', new BigNumber(0));
+
+  return IMap({
+    report: currentReport,
+    disposal: currentDisposal,
+    lotStack: lotStack.pop().push(lotToPush)
+  });
+};
