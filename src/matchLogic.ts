@@ -206,4 +206,8 @@ export const exhaustDisposal = (
   }
 
   const lotToPush = lotToDiminish
-    .set('assetAmount', lotToDim
+    .set('assetAmount', lotToDiminish.assetAmount.minus(disposal.assetAmount))
+    .set('basisAmount', lotToDiminish.basisAmount.minus(costBasisSold));
+
+  const currentDisposal = disposal
+    .set('assetAmount', new BigNumbe
