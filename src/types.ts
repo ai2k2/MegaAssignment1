@@ -138,3 +138,167 @@ export interface TradeInput {
 export type Trade = ImmutableMap<TradeInput>;
 
 export interface DepositInput {
+  tx_id: string;
+  tx_type: 'DEPOSIT';
+  timestamp: string;
+  deposit_code: string;
+  deposit_amount: string;
+  fee_amount?: string | null | undefined;
+  fee_code?: string | null | undefined;
+}
+
+export type Deposit = ImmutableMap<DepositInput>;
+
+export interface WithdrawalInput {
+  tx_id: string;
+  tx_type: 'WITHDRAWAL';
+  timestamp: string;
+  withdrawal_code: string;
+  withdrawal_amount: string;
+  fee_amount?: string | null | undefined;
+  fee_code?: string | null | undefined;
+}
+
+export type Withdrawal = ImmutableMap<WithdrawalInput>;
+
+export interface IncomeInput {
+  tx_id: string;
+  tx_type: 'INCOME';
+  timestamp: string;
+  income_code: string;
+  income_amount: string;
+  fee_amount?: string | null | undefined;
+  fee_code?: string | null | undefined;
+}
+
+export type Income = ImmutableMap<IncomeInput>;
+
+export interface LostInput {
+  tx_id: string;
+  tx_type: 'LOST';
+  timestamp: string;
+  lost_code: string;
+  lost_amount: string;
+  fee_amount?: string | null | undefined;
+  fee_code?: string | null | undefined;
+}
+
+export type Lost = ImmutableMap<LostInput>;
+
+export interface CompoundMintInput {
+  tx_id: string;
+  tx_type: 'COMPOUND_MINT';
+  timestamp: string;
+  c_token_code: string;
+  c_token_amount: string;
+  supplied_code: string;
+  supplied_amount: string;
+  fee_amount?: string | null | undefined;
+  fee_code?: string | null | undefined;
+}
+
+export type CompoundMint = ImmutableMap<CompoundMintInput>;
+
+export interface CompoundBorrowInput {
+  tx_id: string;
+  tx_type: 'COMPOUND_BORROW';
+  timestamp: string;
+  borrow_code: string;
+  borrow_amount: string;
+  fee_amount?: string | null | undefined;
+  fee_code?: string | null | undefined;
+}
+
+export type CompoundBorrow = ImmutableMap<CompoundBorrowInput>;
+
+export interface CompoundRedeemInput {
+  tx_id: string;
+  tx_type: 'COMPOUND_REDEEM';
+  timestamp: string;
+  redeem_code: string;
+  redeem_amount: string;
+  c_token_code: string;
+  c_token_amount: string;
+  fee_amount?: string | null | undefined;
+  fee_code?: string | null | undefined;
+}
+
+export type CompoundRedeem = ImmutableMap<CompoundRedeemInput>;
+
+export interface CompoundRepayBorrowInput {
+  tx_id: string;
+  tx_type: 'COMPOUND_REPAYBORROW';
+  timestamp: string;
+  repay_code: string;
+  repay_amount: string;
+  fee_amount?: string | null | undefined;
+  fee_code?: string | null | undefined;
+}
+
+export type CompoundRepayBorrow = ImmutableMap<CompoundRepayBorrowInput>;
+
+export interface CompoundLiquidateBorrow_BorrowerInput {
+  tx_id: string;
+  tx_type: 'COMPOUND_LIQUIDATEBORROW_BORROWER';
+  timestamp: string;
+  liquidate_code: string;
+  liquidate_amount: string;
+  fee_amount?: string | null | undefined;
+  fee_code?: string | null | undefined;
+}
+
+export type CompoundLiquidateBorrow_Borrower = ImmutableMap<CompoundLiquidateBorrow_BorrowerInput>;
+
+export interface CompoundLiquidateBorrow_LiquidatorInput {
+  tx_id: string;
+  tx_type: 'COMPOUND_LIQUIDATEBORROW_LIQUIDATOR';
+  timestamp: string;
+  repay_code: string;
+  repay_amount: string;
+  seize_code: string;
+  seize_amount: string;
+  fee_amount?: string | null | undefined;
+  fee_code?: string | null | undefined;
+}
+
+export type CompoundLiquidateBorrow_Liquidator = ImmutableMap<
+  CompoundLiquidateBorrow_LiquidatorInput
+>;
+
+export interface PriceInput {
+  tx_id: string;
+  timestamp: string;
+  base_code: string;
+  quote_code: string;
+  price: string;
+}
+
+export type Price = ImmutableMap<PriceInput>;
+export interface MakeLotsDisposalOptions {
+  transactions: List<ITransaction>;
+  prices: List<Price>;
+  priceMethod: PriceMethod;
+  localCurrency: LocalCurrency;
+}
+
+export interface BuildReportYearOptions {
+  disposals: List<Disposal>;
+  lots: List<TaxLot>;
+  report: IMap<any, any>;
+  costBasisMethod: CostBasisMethod;
+  localCurrency: LocalCurrency;
+  allowLotOverlap: boolean;
+}
+
+export type AccountingEntries = ImmutableMap<{
+  disposalList: List<Disposal>;
+  taxLotList: List<TaxLot>;
+}>;
+
+export interface GenericTransformOptions {
+  txId: string;
+  pricesMap: ImmutableMap<{ string: List<Price> }>;
+  transactionsMap: ImmutableMap<{ string: List<ITransaction> }>;
+  priceMethod: PriceMethod;
+  localCurrency: LocalCurrency;
+}
