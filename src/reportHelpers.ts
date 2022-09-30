@@ -192,3 +192,49 @@ export const updateReportHoldingsFromLots = (
     moment
       .utc(year, 'YYYY')
       .endOf('year')
+      .format('X')
+  );
+  let currentReport = reportAndLots.get('report');
+  reportAndLots.get('lots').map((value: List<TaxLot>, lotAsset: string) => {
+    const assetLotsInYear = value.filter((lot: TaxLot) => {
+      return lot.unix < endOfYear;
+    });
+    if (assetLotsInYear.size > 0) {
+      const assetHoldings = assetLotsInYear.reduce((acc: BigNumber, lot: TaxLot) => {
+        return BigNumber.sum(lot.assetAmount, acc);
+      }, new BigNumber(0));
+      const keyPath = [year, 'assets', lotAsset, 'holdings'];
+      const currentHoldings = currentReport.getIn(keyPath, new BigNumber(0));
+      currentReport = currentReport.setIn(keyPath, BigNumber.sum(currentHoldings, assetHoldings));
+    }
+  });
+  return currentReport;
+};
+
+export const buildYearList = (sorted: List<TaxLot | Disposal>): List<number> => {
+  // ! tells Typescript compiler value is not undefined
+  const firstYear = Number(moment.utc(sorted.get(0)!.unix, 'X').format('YYYY'));
+  const lastYear = Number(moment.utc(sorted.get(-1)!.unix, 'X').format('YYYY'));
+  const distance = lastYear - firstYear + 1;
+  return fromJS(Array.from({ length: distance }, (_, i) => i + firstYear));
+};
+
+export const sortAccountingRecords = ({
+  records
+}: {
+  records: List<TaxLot | Disposal>;
+}): List<TaxLot | Disposal> => {
+  return records.sort((a: any, b: any): number => a.unix - b.unix);
+};
+
+export const sortDisposals = ({ records }: { records: List<Disposal> }): List<Disposal> => {
+  return records.sort((a: any, b: any): number => a.unix - b.unix);
+};
+
+// Helper function to convert collection return types back to Map and List
+export const groupBy = (list: List<any>, grouper: (val: any) => any) => {
+  return list
+    .groupBy(grouper)
+    .map((collection: Collection<any, any>) => collection.toList())
+    .toMap();
+};
