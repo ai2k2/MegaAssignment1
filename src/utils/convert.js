@@ -9,3 +9,9 @@ export function bigNumberToString(obj, base, places = 2) {
   if (typeof obj === 'object' && obj !== null && !Array.isArray(obj) && !('lessThan' in obj)) {
     // move through plain object
     Object.keys(obj).forEach(function(key) {
+      // recursively convert item
+      obj[key] = bigNumberToString(
+        obj[key],
+        base,
+        ['increase', 'decrease', 'holdings', 'asset_amount'].includes(key) ? 18 : places
+      );
