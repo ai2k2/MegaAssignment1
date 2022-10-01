@@ -15,3 +15,12 @@ export function bigNumberToString(obj, base, places = 2) {
         base,
         ['increase', 'decrease', 'holdings', 'asset_amount'].includes(key) ? 18 : places
       );
+    });
+  }
+
+  // obj is an array
+  if (Array.isArray(obj)) {
+    // convert items in array
+    obj = obj.map(function(item) {
+      // convert item to a string if bignumber
+      return bigNumberToString(i
