@@ -23,4 +23,13 @@ export function bigNumberToString(obj, base, places = 2) {
     // convert items in array
     obj = obj.map(function(item) {
       // convert item to a string if bignumber
-      return bigNumberToString(i
+      return bigNumberToString(item, base, places);
+    });
+  }
+
+  // if not an object bypass
+  if (typeof obj !== 'object' || obj === null) {
+    return obj;
+  }
+
+  // if the object to does not have BigNumber p
