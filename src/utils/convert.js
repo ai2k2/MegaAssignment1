@@ -32,4 +32,11 @@ export function bigNumberToString(obj, base, places = 2) {
     return obj;
   }
 
-  // if the object to does not have BigNumber p
+  // if the object to does not have BigNumber properties, bypass
+  if (!BigNumber.isBigNumber(obj)) {
+    return obj;
+  }
+
+  // if object has bignumber properties, convert to string with base
+  return obj.dp(places).toString(base);
+}
