@@ -23,4 +23,8 @@ export const validateOptions = (options: TaxReportOptions): void => {
   if (!Array.isArray(transactions)) {
     throw new InvalidParamError('"transactions" must be an array.');
   }
-  if (!Arr
+  if (!Array.isArray(prices)) {
+    throw new InvalidParamError('"prices" must be an array.');
+  }
+  if (typeof local_currency !== 'string') {
+    throw new InvalidParamError('"localCurrency" must be 
