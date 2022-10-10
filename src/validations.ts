@@ -16,4 +16,11 @@ export const validateOptions = (options: TaxReportOptions): void => {
   const toValidate = { prices, transactions, ...options.config };
   Object.entries(toValidate).forEach(([key, value]) => {
     if (value === null || value === undefined) {
-      throw new InvalidParamError
+      throw new InvalidParamError(`"${key}" must not be null or undefined.`);
+    }
+  });
+  // Assert types
+  if (!Array.isArray(transactions)) {
+    throw new InvalidParamError('"transactions" must be an array.');
+  }
+  if (!Arr
