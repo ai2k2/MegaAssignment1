@@ -13,4 +13,7 @@ export const validateOptions = (options: TaxReportOptions): void => {
     } = {}
   } = options;
   // Assert params are not null or undefined.
-  c
+  const toValidate = { prices, transactions, ...options.config };
+  Object.entries(toValidate).forEach(([key, value]) => {
+    if (value === null || value === undefined) {
+      throw new InvalidParamError
