@@ -27,4 +27,10 @@ export const validateOptions = (options: TaxReportOptions): void => {
     throw new InvalidParamError('"prices" must be an array.');
   }
   if (typeof local_currency !== 'string') {
-    throw new InvalidParamError('"localCurrency" must be 
+    throw new InvalidParamError('"localCurrency" must be a string.');
+  }
+  if (typeof price_method !== 'string') {
+    throw new InvalidParamError('"priceMethod" must be a string.');
+  }
+  if (typeof cost_basis_method !== 'string') {
+    t
