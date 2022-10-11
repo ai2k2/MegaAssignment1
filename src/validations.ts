@@ -33,4 +33,9 @@ export const validateOptions = (options: TaxReportOptions): void => {
     throw new InvalidParamError('"priceMethod" must be a string.');
   }
   if (typeof cost_basis_method !== 'string') {
-    t
+    throw new InvalidParamError('"costBasisMethod" must be a string.');
+  }
+  if (typeof decimal_places !== 'number') {
+    throw new InvalidParamError('"decimalPlaces" must be a number.');
+  }
+  // 
