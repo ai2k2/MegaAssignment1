@@ -38,4 +38,10 @@ export const validateOptions = (options: TaxReportOptions): void => {
   if (typeof decimal_places !== 'number') {
     throw new InvalidParamError('"decimalPlaces" must be a number.');
   }
-  // 
+  // Assert length
+  if (transactions.length === 0) {
+    throw new EmptyParamError(
+      'The "transactions" config parameter must include at least one object.'
+    );
+  }
+};
