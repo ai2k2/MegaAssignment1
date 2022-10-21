@@ -615,3 +615,201 @@ describe('Compound Lending', () => {
             }
           ]
         }
+      },
+      config: {
+        local_currency: 'USD',
+        price_method: 'BASE',
+        cost_basis_method: 'FIFO',
+        decimal_places: 2,
+        allow_lot_overlap: true
+      }
+    });
+    expect(received).toEqual(expected);
+  });
+});
+
+describe('Compound Liquidations', () => {
+  test('Single liquidation; no prior borrow or lend', () => {
+    const liquidation = liqBorrow_BorrowerFactory({
+      timestamp: '2019-01-01T00:10:00Z',
+      liquidate_amount: '1',
+      liquidate_code: 'CDAI'
+    });
+    const transactions = [liquidation];
+    // price value does not matter because liquidation
+    // is not a taxable event. during liquidation, the borrower:
+    // - gets to keep the borrowed amount
+    // - loses collateral (the amount lent to compound which means he/she loses cTokens).
+
+    // the price record is required by the model but essentially does not matter
+    // The disposal reduces any lots, but it does not result in a taxable sale.
+    const cDaiPriceRecord = {
+      tx_id: liquidation.tx_id,
+      timestamp: '2019-01-01T00:10:00Z',
+      base_code: 'CDAI',
+      quote_code: 'USD',
+      price: '1'
+    };
+    const prices = [cDaiPriceRecord];
+    const received = createReport({
+      transactions,
+      prices,
+      config: {
+        local_currency: 'USD',
+        price_method: 'BASE',
+        cost_basis_method: 'FIFO',
+        decimal_places: 2
+      }
+    });
+    const expected = taxReportFactory({
+      config: {
+        local_currency: 'USD',
+        price_method: 'BASE',
+        cost_basis_method: 'FIFO',
+        decimal_places: 2,
+        allow_lot_overlap: true
+      },
+      report: {
+        '2019': {
+          assets: {
+            CDAI: { increase: '0', holdings: '-1', decrease: '1' }
+          },
+          compound_liquidations_borrower: [
+            {
+              asset: 'CDAI',
+              asset_amount: '1',
+              cost_basis: '0',
+              date_acquired: '2019-01-01T00:10:00Z',
+              date_sold: '2019-01-01T00:10:00Z',
+              proceeds: '1',
+              tx_id_sale: liquidation.tx_id
+            }
+          ],
+          income: [],
+          interest_income: [],
+          long: [],
+          lost: [],
+          short: [],
+          unmatched: [
+            {
+              asset: 'CDAI',
+              asset_amount: '1',
+              cost_basis: '0',
+              date_acquired: '2019-01-01T00:10:00Z',
+              date_sold: '2019-01-01T00:10:00Z',
+              proceeds: '1',
+              tx_id_sale: liquidation.tx_id
+            }
+          ]
+        }
+      }
+    });
+    expect(received).toEqual(expected);
+  });
+  test('Single liquidation; borrow and collateral setup', () => {
+    const mint = mintFactory({
+      timestamp: '2019-01-01T01:00:00Z',
+      c_token_amount: '4270.51788924',
+      c_token_code: 'CDAI',
+      supplied_amount: '89.90136056219178411',
+      supplied_code: 'DAI'
+    });
+    const liquidation = liqBorrow_BorrowerFactory({
+      tx_id: 'c5ebb42f-8f56-495a-a349-858283844808',
+      timestamp: '2019-01-03T00:10:00Z',
+      liquidate_amount: '1',
+      liquidate_code: 'CDAI'
+    });
+    // Borrow ETH
+    const borrowTx1 = borrowFactory({
+      timestamp: '2019-01-02T01:00:00Z',
+      borrow_amount: '1',
+      borrow_code: 'ETH'
+    });
+    const transactions = [mint, borrowTx1, liquidation];
+    const borrowPriceEth = {
+      tx_id: borrowTx1.tx_id,
+      timestamp: borrowTx1.timestamp,
+      base_code: 'ETH',
+      quote_code: 'USD',
+      price: '100'
+    };
+    const daiPriceRecord = {
+      tx_id: mint.tx_id,
+      timestamp: mint.timestamp,
+      base_code: 'DAI',
+      quote_code: 'USD',
+      price: '1'
+    };
+    const cDaiPriceRecordMint = {
+      tx_id: mint.tx_id,
+      timestamp: mint.timestamp,
+      base_code: 'CDAI',
+      quote_code: 'USD',
+      price: '1'
+    };
+    // price value does not matter because liquidation
+    // is not a taxable event. during liquidation, the borrower:
+    // - gets to keep the borrowed amount
+    // - loses collateral (the amount lent to compound which means he/she loses cTokens).
+
+    // the price record is required by the model but essentially does not matter
+    // The disposal reduces any lots, but it does not result in a taxable sale.
+    const cDaiPriceRecord = {
+      tx_id: 'c5ebb42f-8f56-495a-a349-858283844808',
+      timestamp: '2019-01-03T00:10:00Z',
+      base_code: 'CDAI',
+      quote_code: 'USD',
+      price: '1'
+    };
+    const prices = [daiPriceRecord, cDaiPriceRecordMint, cDaiPriceRecord, borrowPriceEth];
+    const received = createReport({
+      transactions,
+      prices,
+      config: {
+        local_currency: 'USD',
+        price_method: 'BASE',
+        cost_basis_method: 'FIFO',
+        decimal_places: 2
+      }
+    });
+    const expected = taxReportFactory({
+      config: {
+        local_currency: 'USD',
+        price_method: 'BASE',
+        cost_basis_method: 'FIFO',
+        decimal_places: 2,
+        allow_lot_overlap: true
+      },
+      report: {
+        '2019': {
+          assets: {
+            ETH: { increase: '1', holdings: '1', decrease: '0' },
+            CDAI: { increase: '4270.51788924', holdings: '4269.51788924', decrease: '1' },
+            DAI: {
+              increase: '0',
+              holdings: '-89.90136056219178411',
+              decrease: '89.90136056219178411'
+            }
+          },
+          compound_liquidations_borrower: [
+            {
+              asset: 'CDAI',
+              asset_amount: '1',
+              cost_basis: '1',
+              date_acquired: '2019-01-01T01:00:00Z',
+              date_sold: '2019-01-03T00:10:00Z',
+              proceeds: '1',
+              tx_id_sale: liquidation.tx_id,
+              tx_id_lot: mint.tx_id
+            }
+          ],
+          income: [],
+          interest_income: [],
+          long: [],
+          lost: [],
+          short: [
+            {
+              asset: 'DAI',
+              asset_amount: '89.90136056219178411',
+              cost_basis: '0',
