@@ -413,3 +413,205 @@ describe('Compound Lending', () => {
               proceeds: '1',
               tx_id_sale: mintTx1.tx_id,
               tx_id_lot: deposit.tx_id
+            },
+            {
+              asset: 'DAI',
+              asset_amount: '1',
+              cost_basis: '1',
+              date_acquired: '2019-01-02T01:00:00Z',
+              date_sold: '2019-01-03T01:00:00Z',
+              proceeds: '1',
+              tx_id_lot: redeemTx1.tx_id,
+              tx_id_sale: mintTx2.tx_id
+            }
+          ],
+          interest_income: [
+            {
+              asset: 'CDAI',
+              asset_amount: '5',
+              cost_basis: '0.5',
+              date_acquired: '2019-01-01T01:00:00Z',
+              date_sold: '2019-01-02T01:00:00Z',
+              proceeds: '1',
+              tx_id_lot: mintTx1.tx_id,
+              tx_id_sale: redeemTx1.tx_id
+            },
+            {
+              asset: 'CDAI',
+              asset_amount: '5',
+              cost_basis: '0.5',
+              date_acquired: '2019-01-01T01:00:00Z',
+              date_sold: '2019-01-04T01:00:00Z',
+              proceeds: '0.01',
+              tx_id_lot: mintTx1.tx_id,
+              tx_id_sale: redeemTx2.tx_id
+            },
+            {
+              asset: 'CDAI',
+              asset_amount: '1000',
+              cost_basis: '1',
+              date_acquired: '2019-01-03T01:00:00Z',
+              date_sold: '2019-01-04T01:00:00Z',
+              proceeds: '2.99',
+              tx_id_lot: mintTx2.tx_id,
+              tx_id_sale: redeemTx2.tx_id
+            }
+          ]
+        }
+      },
+      config: {
+        local_currency: 'USD',
+        price_method: 'BASE',
+        cost_basis_method: 'FIFO',
+        decimal_places: 2,
+        allow_lot_overlap: true
+      }
+    });
+    expect(received).toEqual(expected);
+  });
+
+  // TODO: More borrow and repay scenarios.
+  test('Lend DAI, borrow ETH, repay ETH', () => {
+    // Initial DAI deposit
+    const deposit = depositFactory({
+      timestamp: '2019-01-01T00:10:00Z',
+      deposit_amount: '1',
+      deposit_code: 'DAI'
+    });
+
+    // Lend DAI
+    const mintTx1 = mintFactory({
+      timestamp: '2019-01-01T01:00:00Z',
+      c_token_amount: '10',
+      c_token_code: 'CDAI',
+      supplied_amount: '1',
+      supplied_code: 'DAI'
+    });
+    const mintPriceDai1 = {
+      tx_id: mintTx1.tx_id,
+      timestamp: mintTx1.timestamp,
+      base_code: 'DAI',
+      quote_code: 'USD',
+      price: '1'
+    };
+    const mintPriceCdai1 = impliedPrice({
+      amountPriced: mintTx1.supplied_amount,
+      amountUnpriced: mintTx1.c_token_amount,
+      price: mintPriceDai1.price
+    });
+
+    // Borrow ETH
+    const borrowTx1 = borrowFactory({
+      timestamp: '2019-01-02T01:00:00Z',
+      borrow_amount: '1',
+      borrow_code: 'ETH'
+    });
+    const borrowPriceEth = {
+      tx_id: borrowTx1.tx_id,
+      timestamp: borrowTx1.timestamp,
+      base_code: 'ETH',
+      quote_code: 'USD',
+      price: '1'
+    };
+
+    // Repay ETH
+    const repayTx1 = repayBorrowFactory({
+      timestamp: '2019-01-03T01:00:00Z',
+      repay_amount: '1',
+      repay_code: 'ETH'
+    });
+    const repayPriceEth = {
+      tx_id: repayTx1.tx_id,
+      timestamp: repayTx1.timestamp,
+      base_code: 'ETH',
+      quote_code: 'USD',
+      price: '1'
+    };
+
+    const prices = [
+      // deposit price
+      {
+        tx_id: deposit.tx_id,
+        timestamp: deposit.timestamp,
+        base_code: 'DAI',
+        quote_code: 'USD',
+        price: '1'
+      },
+      // first mint prices
+      mintPriceDai1,
+      {
+        tx_id: mintTx1.tx_id,
+        timestamp: mintTx1.timestamp,
+        base_code: 'CDAI',
+        quote_code: 'USD',
+        price: mintPriceCdai1
+      },
+      borrowPriceEth,
+      repayPriceEth
+    ];
+    const transactions = [deposit, mintTx1, borrowTx1, repayTx1];
+    const received = createReport({
+      transactions,
+      prices,
+      config: {
+        local_currency: 'USD',
+        price_method: 'BASE',
+        cost_basis_method: 'FIFO',
+        decimal_places: 2
+      }
+    });
+    const expected = taxReportFactory({
+      report: {
+        2019: {
+          assets: {
+            CDAI: {
+              increase: '10',
+              decrease: '0',
+              holdings: '10'
+            },
+            DAI: {
+              increase: '1',
+              decrease: '1',
+              holdings: '0'
+            },
+            ETH: {
+              increase: '1',
+              holdings: '0',
+              decrease: '1'
+            }
+          },
+          short: [
+            {
+              asset: 'DAI',
+              asset_amount: '1',
+              cost_basis: '1',
+              date_acquired: '2019-01-01T00:10:00Z',
+              date_sold: '2019-01-01T01:00:00Z',
+              proceeds: '1',
+              tx_id_lot: deposit.tx_id,
+              tx_id_sale: mintTx1.tx_id
+            },
+            {
+              asset: 'ETH',
+              asset_amount: '1',
+              cost_basis: '1',
+              date_acquired: '2019-01-02T01:00:00Z',
+              date_sold: '2019-01-03T01:00:00Z',
+              proceeds: '1',
+              tx_id_lot: borrowTx1.tx_id,
+              tx_id_sale: repayTx1.tx_id
+            }
+          ],
+          borrow_repayments: [
+            {
+              asset: 'ETH',
+              asset_amount: '1',
+              cost_basis: '1',
+              date_acquired: '2019-01-02T01:00:00Z',
+              date_sold: '2019-01-03T01:00:00Z',
+              proceeds: '1',
+              tx_id_lot: borrowTx1.tx_id,
+              tx_id_sale: repayTx1.tx_id
+            }
+          ]
+        }
