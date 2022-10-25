@@ -813,3 +813,101 @@ describe('Compound Liquidations', () => {
               asset: 'DAI',
               asset_amount: '89.90136056219178411',
               cost_basis: '0',
+              date_acquired: '2019-01-01T01:00:00Z',
+              date_sold: '2019-01-01T01:00:00Z',
+              proceeds: '4270.52',
+              tx_id_sale: mint.tx_id
+            }
+          ],
+          unmatched: [
+            {
+              asset: 'DAI',
+              asset_amount: '89.90136056219178411',
+              cost_basis: '0',
+              date_acquired: '2019-01-01T01:00:00Z',
+              date_sold: '2019-01-01T01:00:00Z',
+              proceeds: '4270.52',
+              tx_id_sale: mint.tx_id
+            }
+          ]
+        }
+      }
+    });
+    expect(received).toEqual(expected);
+  });
+  test('Single liquidation; liquidator side', () => {
+    const liquidation = liqBorrow_LiquidatorFactory({
+      timestamp: '2019-01-01T00:10:00Z',
+      repay_amount: '1',
+      repay_code: 'ZRX',
+      seize_amount: '50',
+      seize_code: 'CETH'
+    });
+    const transactions = [liquidation];
+    const zrxPrice = {
+      tx_id: liquidation.tx_id,
+      timestamp: '2019-01-01T00:10:00Z',
+      base_code: 'ZRX',
+      quote_code: 'USD',
+      price: '1'
+    };
+    const cTokenPrice = {
+      tx_id: liquidation.tx_id,
+      timestamp: '2019-01-01T00:10:00Z',
+      base_code: 'CETH',
+      quote_code: 'USD',
+      price: '1'
+    };
+    const prices = [zrxPrice, cTokenPrice];
+    const received = createReport({
+      transactions,
+      prices,
+      config: {
+        local_currency: 'USD',
+        price_method: 'BASE',
+        cost_basis_method: 'FIFO',
+        decimal_places: 2
+      }
+    });
+    const expected = taxReportFactory({
+      config: {
+        local_currency: 'USD',
+        price_method: 'BASE',
+        cost_basis_method: 'FIFO',
+        decimal_places: 2,
+        allow_lot_overlap: true
+      },
+      report: {
+        '2019': {
+          assets: {
+            ZRX: { increase: '0', holdings: '-1', decrease: '1' },
+            CETH: { increase: '50', holdings: '50', decrease: '0' }
+          },
+          short: [
+            {
+              asset: 'ZRX',
+              asset_amount: '1',
+              cost_basis: '0',
+              date_acquired: '2019-01-01T00:10:00Z',
+              date_sold: '2019-01-01T00:10:00Z',
+              proceeds: '1',
+              tx_id_sale: liquidation.tx_id
+            }
+          ],
+          unmatched: [
+            {
+              asset: 'ZRX',
+              asset_amount: '1',
+              cost_basis: '0',
+              date_acquired: '2019-01-01T00:10:00Z',
+              date_sold: '2019-01-01T00:10:00Z',
+              proceeds: '1',
+              tx_id_sale: liquidation.tx_id
+            }
+          ]
+        }
+      }
+    });
+    expect(expected).toEqual(received);
+  });
+});
