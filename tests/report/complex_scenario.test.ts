@@ -89,3 +89,59 @@ describe('fiat -> crypto -> fiat -> crypto scenario', () => {
       config: {
         local_currency: 'USD',
         price_method: 'BASE',
+        cost_basis_method: 'FIFO',
+        decimal_places: 2,
+        allow_lot_overlap: true
+      },
+      report: {
+        '2018': {
+          assets: {
+            BTC: {
+              increase: '1',
+              holdings: '0',
+              decrease: '1'
+            },
+            ETH: {
+              increase: '20',
+              holdings: '20',
+              decrease: '0'
+            },
+            USD: {
+              increase: '1000',
+              holdings: '400',
+              decrease: '600'
+            }
+          },
+          long: [],
+          income: [],
+          short: [
+            {
+              asset: 'BTC',
+              asset_amount: '1',
+              cost_basis: '100',
+              date_acquired: '2018-01-01T09:30:00Z',
+              date_sold: '2018-01-02T09:30:00Z',
+              proceeds: '1000',
+              tx_id_lot: trade_1.tx_id,
+              tx_id_sale: trade_2.tx_id
+            }
+          ],
+          unmatched: [
+            {
+              asset: 'USD',
+              asset_amount: '100',
+              cost_basis: '0',
+              date_acquired: '2018-01-01T09:30:00Z',
+              date_sold: '2018-01-01T09:30:00Z',
+              proceeds: '100',
+              tx_id_sale: trade_1.tx_id
+            }
+          ],
+          lost: [],
+          interest_income: []
+        }
+      }
+    });
+    expect(result).toEqual(expected);
+  });
+});
