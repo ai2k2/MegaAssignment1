@@ -545,3 +545,19 @@ describe('crypto/crypto long term gains', () => {
                 cost_basis: '132.825',
                 tx_id_lot: trade_4.tx_id,
                 tx_id_sale: trade_5.tx_id
+              }
+            ]
+          }
+        },
+        config: {
+          local_currency: 'USD',
+          price_method: 'QUOTE',
+          cost_basis_method: 'LIFO',
+          decimal_places: 3,
+          allow_lot_overlap: true
+        }
+      });
+      expect(received).toEqual(expected);
+    });
+  });
+});
