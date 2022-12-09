@@ -188,3 +188,107 @@ describe('crypto/crypto short term gains with fees', () => {
                 asset: 'USD',
                 asset_amount: '1',
                 cost_basis: '0',
+                date_acquired: trade_1_fee.timestamp,
+                date_sold: trade_1_fee.timestamp,
+                proceeds: '1',
+                tx_id_sale: trade_1_fee.tx_id
+              },
+              {
+                asset: 'USD',
+                asset_amount: '1',
+                cost_basis: '0',
+                date_acquired: trade_2_fee.timestamp,
+                date_sold: trade_2_fee.timestamp,
+                proceeds: '1',
+                tx_id_sale: trade_2_fee.tx_id
+              },
+              {
+                asset: 'USD',
+                asset_amount: '300',
+                cost_basis: '0',
+                date_acquired: trade_2.timestamp,
+                date_sold: trade_2.timestamp,
+                proceeds: '300',
+                tx_id_sale: trade_2.tx_id
+              },
+              {
+                asset: 'USD',
+                asset_amount: '200',
+                cost_basis: '0',
+                date_acquired: trade_3.timestamp,
+                date_sold: trade_3.timestamp,
+                proceeds: '200',
+                tx_id_sale: trade_3.tx_id
+              },
+              {
+                asset: 'USD',
+                asset_amount: '1',
+                cost_basis: '0',
+                proceeds: '1',
+                date_acquired: trade_3_fee.timestamp,
+                date_sold: trade_3_fee.timestamp,
+                tx_id_sale: trade_3_fee.tx_id
+              }
+            ],
+            income: [],
+            long: [],
+            short: [
+              // ETH sale comes first due to position in
+              // transactions array
+              {
+                asset: 'ETH',
+                asset_amount: '2',
+                cost_basis: '120',
+                proceeds: '120',
+                tx_id_lot: trade_4.tx_id,
+                tx_id_sale: trade_4_fee.tx_id,
+                date_acquired: trade_4.timestamp,
+                date_sold: trade_4.timestamp
+              },
+              {
+                asset: 'BTC',
+                asset_amount: '1',
+                date_acquired: '2018-01-03T01:00:00Z',
+                date_sold: '2018-01-04T01:00:00Z',
+                proceeds: '3960',
+                cost_basis: '201',
+                tx_id_lot: trade_3.tx_id,
+                tx_id_sale: trade_4.tx_id
+              },
+              {
+                asset: 'BTC',
+                asset_amount: '1',
+                date_acquired: '2018-01-02T01:00:00Z',
+                date_sold: '2018-01-04T01:00:00Z',
+                proceeds: '3960',
+                cost_basis: '301',
+                tx_id_lot: trade_2.tx_id,
+                tx_id_sale: trade_4.tx_id
+              },
+              {
+                asset: 'BTC',
+                asset_amount: '1',
+                date_acquired: '2018-01-01T01:00:00Z',
+                date_sold: '2018-01-04T01:00:00Z',
+                proceeds: '3960',
+                cost_basis: '101',
+                tx_id_lot: trade_1.tx_id,
+                tx_id_sale: trade_4.tx_id
+              }
+            ],
+            lost: [],
+            interest_income: []
+          }
+        },
+        config: {
+          local_currency: 'USD',
+          price_method: 'BASE',
+          cost_basis_method: 'LIFO',
+          decimal_places: 2,
+          allow_lot_overlap: true
+        }
+      });
+      expect(received).toEqual(expected);
+    });
+  });
+});
