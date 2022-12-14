@@ -665,3 +665,135 @@ describe('crypto/fiat short term gains with zero basis BTC and no fees', () => {
   describe('Use quote price', () => {
     test('HIFO', () => {
       const received = createReport({
+        transactions,
+        prices,
+        config: {
+          local_currency: 'USD',
+          price_method: 'QUOTE',
+          cost_basis_method: 'HIFO',
+          decimal_places: 2
+        }
+      });
+      let expected = taxReportFactory({
+        report: {
+          2019: {
+            assets: {
+              BTC: {
+                holdings: '1',
+                increase: '2',
+                decrease: '1'
+              },
+              USD: {
+                holdings: '500',
+                increase: '3500',
+                decrease: '3000'
+              }
+            },
+            unmatched: [
+              {
+                asset: 'USD',
+                asset_amount: '3000',
+                cost_basis: '0',
+                date_acquired: '2019-01-01T01:00:00Z',
+                date_sold: '2019-01-01T01:00:00Z',
+                proceeds: '3000',
+                tx_id_sale: trade_1.tx_id
+              }
+            ],
+            income: [],
+            long: [],
+            short: [
+              {
+                asset: 'BTC',
+                asset_amount: '1',
+                date_acquired: '2019-01-01T01:00:00Z',
+                date_sold: '2019-03-01T01:00:00Z',
+                proceeds: '3500',
+                cost_basis: '3000',
+                tx_id_sale: trade_3.tx_id,
+                tx_id_lot: trade_1.tx_id
+              }
+            ],
+            lost: [],
+            interest_income: []
+          }
+        },
+        config: {
+          local_currency: 'USD',
+          price_method: 'QUOTE',
+          cost_basis_method: 'HIFO',
+          decimal_places: 2,
+          allow_lot_overlap: true
+        }
+      });
+      expect(received).toEqual(expected);
+    });
+  });
+  describe('Use base price', () => {
+    test('FIFO', () => {
+      const received = createReport({
+        transactions,
+        prices,
+        config: {
+          local_currency: 'USD',
+          price_method: 'BASE',
+          cost_basis_method: 'FIFO',
+          decimal_places: 2
+        }
+      });
+      let expected = taxReportFactory({
+        report: {
+          2019: {
+            assets: {
+              BTC: {
+                holdings: '1',
+                increase: '2',
+                decrease: '1'
+              },
+              USD: {
+                holdings: '500',
+                increase: '3500',
+                decrease: '3000'
+              }
+            },
+            unmatched: [
+              {
+                asset: 'USD',
+                asset_amount: '3000',
+                cost_basis: '0',
+                date_acquired: '2019-01-01T01:00:00Z',
+                date_sold: '2019-01-01T01:00:00Z',
+                proceeds: '3000',
+                tx_id_sale: trade_1.tx_id
+              }
+            ],
+            income: [],
+            long: [],
+            short: [
+              {
+                asset: 'BTC',
+                asset_amount: '1',
+                date_acquired: '2019-01-01T01:00:00Z',
+                date_sold: '2019-03-01T01:00:00Z',
+                proceeds: '3500',
+                cost_basis: '3000',
+                tx_id_sale: trade_3.tx_id,
+                tx_id_lot: trade_1.tx_id
+              }
+            ],
+            lost: [],
+            interest_income: []
+          }
+        },
+        config: {
+          local_currency: 'USD',
+          price_method: 'BASE',
+          cost_basis_method: 'FIFO',
+          decimal_places: 2,
+          allow_lot_overlap: true
+        }
+      });
+      expect(received).toEqual(expected);
+    });
+  });
+});
