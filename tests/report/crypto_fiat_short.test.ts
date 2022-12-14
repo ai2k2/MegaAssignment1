@@ -481,3 +481,187 @@ describe('crypto/fiat short term gains with fees', () => {
               date_sold: '2018-01-04T01:00:00Z',
               proceeds: '332.33',
               cost_basis: '301',
+              tx_id_lot: trade_2.tx_id,
+              tx_id_sale: trade_4.tx_id
+            },
+            {
+              asset: 'BTC',
+              asset_amount: '1',
+              date_acquired: '2018-01-01T01:00:00Z',
+              date_sold: '2018-01-04T01:00:00Z',
+              proceeds: '332.33',
+              cost_basis: '101',
+              tx_id_lot: trade_1.tx_id,
+              tx_id_sale: trade_4.tx_id
+            }
+          ]
+        }
+      },
+      config: {
+        local_currency: 'USD',
+        price_method: 'BASE',
+        cost_basis_method: 'LIFO',
+        decimal_places: 2,
+        allow_lot_overlap: true
+      }
+    });
+    expect(received).toEqual(expected);
+  });
+});
+
+describe('crypto/fiat short term unmatched gains and no fees', () => {
+  const trade_1 = tradeFactory({
+    timestamp: '2018-01-04T01:00:00Z',
+    side: 'SELL',
+    base_amount: '3',
+    base_code: 'BTC',
+    quote_amount: '1000',
+    quote_code: 'USD'
+  });
+  const prices = [
+    {
+      tx_id: trade_1.tx_id,
+      timestamp: trade_1.timestamp,
+      base_code: 'BTC',
+      quote_code: 'USD',
+      price: '333.3333333'
+    }
+  ];
+  const transactions = [trade_1];
+  const received = createReport({
+    transactions,
+    prices,
+    config: {
+      local_currency: 'USD',
+      price_method: 'BASE',
+      cost_basis_method: 'FIFO',
+      decimal_places: 2
+    }
+  });
+  let expected = taxReportFactory({
+    report: {
+      2018: {
+        assets: {
+          BTC: {
+            holdings: '-3',
+            increase: '0',
+            decrease: '3'
+          },
+          USD: {
+            holdings: '1000',
+            increase: '1000',
+            decrease: '0'
+          }
+        },
+        short: [
+          {
+            asset: 'BTC',
+            asset_amount: '3',
+            cost_basis: '0',
+            date_acquired: '2018-01-04T01:00:00Z',
+            date_sold: '2018-01-04T01:00:00Z',
+            proceeds: '1000',
+            tx_id_sale: trade_1.tx_id
+          }
+        ],
+        unmatched: [
+          {
+            asset: 'BTC',
+            asset_amount: '3',
+            cost_basis: '0',
+            date_acquired: '2018-01-04T01:00:00Z',
+            date_sold: '2018-01-04T01:00:00Z',
+            proceeds: '1000',
+            tx_id_sale: trade_1.tx_id
+          }
+        ]
+      }
+    },
+    config: {
+      local_currency: 'USD',
+      price_method: 'BASE',
+      cost_basis_method: 'FIFO',
+      decimal_places: 2,
+      allow_lot_overlap: true
+    }
+  });
+  expect(received).toEqual(expected);
+});
+
+describe('crypto/fiat short term gains with zero basis BTC and no fees', () => {
+  const trade_1 = tradeFactory({
+    timestamp: '2019-01-01T01:00:00Z',
+    tx_id: '1',
+    side: 'NONE',
+    base_amount: '1',
+    base_code: 'BTC',
+    quote_amount: '3000',
+    quote_code: 'USD'
+  });
+  const trade_2 = tradeFactory({
+    timestamp: '2019-02-01T01:00:00Z',
+    tx_id: '2',
+    side: 'NONE',
+    base_amount: '1',
+    base_code: 'BTC',
+    quote_amount: '0',
+    quote_code: 'USD'
+  });
+  const trade_3 = tradeFactory({
+    timestamp: '2019-03-01T01:00:00Z',
+    tx_id: '3',
+    side: 'NONE',
+    base_amount: '3500',
+    base_code: 'USD',
+    quote_amount: '1',
+    quote_code: 'BTC'
+  });
+  const transactions = [trade_1, trade_2, trade_3];
+  const prices = [
+    {
+      tx_id: trade_1.tx_id,
+      timestamp: trade_1.timestamp,
+      base_code: 'BTC',
+      quote_code: 'USD',
+      price: '3000'
+    },
+    {
+      tx_id: trade_1.tx_id,
+      timestamp: trade_1.timestamp,
+      base_code: 'USD',
+      quote_code: 'USD',
+      price: '1'
+    },
+    {
+      tx_id: trade_2.tx_id,
+      timestamp: trade_2.timestamp,
+      base_code: 'BTC',
+      quote_code: 'USD',
+      price: '0'
+    },
+    {
+      tx_id: trade_2.tx_id,
+      timestamp: trade_2.timestamp,
+      base_code: 'USD',
+      quote_code: 'USD',
+      price: '1'
+    },
+    {
+      tx_id: trade_3.tx_id,
+      timestamp: trade_3.timestamp,
+      base_code: 'BTC',
+      quote_code: 'USD',
+      price: '3500'
+    },
+    {
+      tx_id: trade_3.tx_id,
+      timestamp: trade_3.timestamp,
+      base_code: 'USD',
+      quote_code: 'USD',
+      price: '1'
+    }
+  ];
+
+  describe('Use quote price', () => {
+    test('HIFO', () => {
+      const received = createReport({
