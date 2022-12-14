@@ -8,4 +8,8 @@ import {
 } from '../utils/factories';
 
 describe('deposit assets', () => {
-  describe(
+  describe('crypto/fiat short term gains - deposit BTC - null fees on deposit', () => {
+    const deposit_1 = depositFactory({
+      timestamp: '2018-01-01T01:00:00Z',
+      deposit_amount: '1',
+      deposit_code: 'BTC
