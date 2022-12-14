@@ -325,3 +325,124 @@ describe('crypto/fiat long term gains', () => {
         allow_lot_overlap: true
       }
     });
+    expect(received).toEqual(expected);
+  });
+  test('LIFO', () => {
+    const received = createReport({
+      transactions,
+      prices,
+      config: {
+        local_currency: 'USD',
+        price_method: 'BASE',
+        cost_basis_method: 'LIFO',
+        decimal_places: 2
+      }
+    });
+    let expected = taxReportFactory({
+      report: {
+        2018: {
+          assets: {
+            ETH: {
+              holdings: '1',
+              increase: '1',
+              decrease: '0'
+            },
+            USD: {
+              holdings: '-205',
+              increase: '0',
+              decrease: '205'
+            }
+          },
+          unmatched: [
+            {
+              asset: 'USD',
+              asset_amount: '5',
+              cost_basis: '0',
+              proceeds: '5',
+              date_acquired: '2018-01-01T09:30:00Z',
+              date_sold: '2018-01-01T09:30:00Z',
+              tx_id_sale: trade_1_fee.tx_id
+            },
+            {
+              asset: 'USD',
+              asset_amount: '200',
+              cost_basis: '0',
+              date_acquired: '2018-01-01T09:30:00Z',
+              date_sold: '2018-01-01T09:30:00Z',
+              proceeds: '200',
+              tx_id_sale: trade_1.tx_id
+            }
+          ]
+        },
+        2019: {
+          assets: {
+            ETH: {
+              holdings: '2',
+              increase: '1',
+              decrease: '0'
+            },
+            USD: {
+              holdings: '-360.19',
+              increase: '0',
+              decrease: '155.19'
+            }
+          },
+          unmatched: [
+            {
+              asset: 'USD',
+              asset_amount: '2',
+              cost_basis: '0',
+              proceeds: '2',
+              date_acquired: '2019-01-04T12:00:00Z',
+              date_sold: '2019-01-04T12:00:00Z',
+              tx_id_sale: trade_2_fee.tx_id
+            },
+            {
+              asset: 'USD',
+              asset_amount: '153.19',
+              cost_basis: '0',
+              date_acquired: '2019-01-04T12:00:00Z',
+              date_sold: '2019-01-04T12:00:00Z',
+              proceeds: '153.19',
+              tx_id_sale: trade_2.tx_id
+            }
+          ]
+        },
+        2020: {
+          assets: {
+            ETH: {
+              holdings: '1',
+              increase: '0',
+              decrease: '1'
+            },
+            USD: {
+              holdings: '-115.19',
+              increase: '250',
+              decrease: '5'
+            }
+          },
+          long: [
+            {
+              asset: 'ETH',
+              asset_amount: '1',
+              date_acquired: '2019-01-04T12:00:00Z',
+              date_sold: '2020-01-31T13:00:00Z',
+              proceeds: '245',
+              cost_basis: '155.19',
+              tx_id_lot: trade_2.tx_id,
+              tx_id_sale: trade_3.tx_id
+            }
+          ]
+        }
+      },
+      config: {
+        local_currency: 'USD',
+        price_method: 'BASE',
+        cost_basis_method: 'LIFO',
+        decimal_places: 2,
+        allow_lot_overlap: true
+      }
+    });
+    expect(received).toEqual(expected);
+  });
+});
