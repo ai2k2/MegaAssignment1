@@ -19,4 +19,11 @@ describe('deposit assets', () => {
       deposit_amount: '1',
       deposit_code: 'BTC'
     });
-    const deposit_3 = depositFactor
+    const deposit_3 = depositFactory({
+      timestamp: '2018-01-03T01:00:00Z',
+      deposit_amount: '1',
+      deposit_code: 'BTC'
+    });
+    const trade_1_fee = withdrawalFactory({
+      timestamp: '2018-01-04T01:00:00Z',
+      
