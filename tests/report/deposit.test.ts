@@ -26,4 +26,11 @@ describe('deposit assets', () => {
     });
     const trade_1_fee = withdrawalFactory({
       timestamp: '2018-01-04T01:00:00Z',
-      
+      withdrawal_code: 'USD',
+      withdrawal_amount: '3'
+    });
+    const trade_1 = tradeFactory({
+      timestamp: '2018-01-04T01:00:00Z',
+      side: 'SELL',
+      base_amount: '3',
+      base_code: 'BTC',
