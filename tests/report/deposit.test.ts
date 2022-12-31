@@ -34,3 +34,9 @@ describe('deposit assets', () => {
       side: 'SELL',
       base_amount: '3',
       base_code: 'BTC',
+      quote_amount: '1000',
+      quote_code: 'USD',
+      fee_tx_ids: [trade_1_fee.tx_id]
+    });
+    const transactions = [deposit_1, deposit_2, deposit_3, trade_1, trade_1_fee];
+    const price
