@@ -72,4 +72,12 @@ describe('deposit assets', () => {
     test('FIFO', () => {
       const received = createReport({
         transactions,
-        
+        prices,
+        config: {
+          local_currency: 'USD',
+          price_method: 'BASE',
+          cost_basis_method: 'FIFO',
+          decimal_places: 2
+        }
+      });
+      let expec
