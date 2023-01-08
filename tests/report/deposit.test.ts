@@ -87,4 +87,13 @@ describe('deposit assets', () => {
               BTC: {
                 holdings: '0',
                 increase: '3',
+                decrease: '3'
+              },
+              USD: {
+                holdings: '997',
+                increase: '1000',
+                decrease: '3'
+              }
+            },
+            income: [],
  
