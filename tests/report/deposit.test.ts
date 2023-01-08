@@ -64,4 +64,12 @@ describe('deposit assets', () => {
       {
         tx_id: trade_1.tx_id,
         timestamp: trade_1.timestamp,
-   
+        base_code: 'BTC',
+        quote_code: 'USD',
+        price: '333.3333333'
+      }
+    ];
+    test('FIFO', () => {
+      const received = createReport({
+        transactions,
+        
