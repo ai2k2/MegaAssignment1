@@ -80,4 +80,11 @@ describe('deposit assets', () => {
           decimal_places: 2
         }
       });
-      let expec
+      let expected = taxReportFactory({
+        report: {
+          2018: {
+            assets: {
+              BTC: {
+                holdings: '0',
+                increase: '3',
+ 
