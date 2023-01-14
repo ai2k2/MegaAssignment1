@@ -96,4 +96,10 @@ describe('deposit assets', () => {
               }
             },
             income: [],
- 
+            long: [],
+            short: [
+              {
+                asset: 'BTC',
+                asset_amount: '1',
+                date_acquired: '2018-01-01T01:00:00Z',
+                date_so
