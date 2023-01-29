@@ -150,4 +150,11 @@ describe('deposit assets', () => {
     const deposit_1 = depositFactory({
       timestamp: '2019-01-01T01:00:00Z',
       deposit_amount: '10',
-      deposit_cod
+      deposit_code: 'BNB'
+    });
+    const deposit_2_fee = withdrawalFactory({
+      timestamp: '2019-01-01T01:00:00Z',
+      withdrawal_code: 'BNB',
+      withdrawal_amount: '2'
+    });
+    const deposit_2 = depositFactor
