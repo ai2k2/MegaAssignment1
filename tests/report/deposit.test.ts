@@ -128,4 +128,12 @@ describe('deposit assets', () => {
                 tx_id_lot: deposit_3.tx_id,
                 tx_id_sale: trade_1.tx_id
               }
-        
+            ],
+            unmatched: [],
+            lost: [],
+            interest_income: []
+          }
+        },
+        config: {
+          local_currency: 'USD',
+          price_me
