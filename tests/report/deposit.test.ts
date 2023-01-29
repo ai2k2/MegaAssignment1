@@ -146,4 +146,8 @@ describe('deposit assets', () => {
     });
   });
 
-  test('crypt
+  test('crypto/crypto short term gains - deposit BTC, deposit BNB - fees with fee code !== quote code', () => {
+    const deposit_1 = depositFactory({
+      timestamp: '2019-01-01T01:00:00Z',
+      deposit_amount: '10',
+      deposit_cod
