@@ -136,4 +136,14 @@ describe('deposit assets', () => {
         },
         config: {
           local_currency: 'USD',
-          price_me
+          price_method: 'BASE',
+          cost_basis_method: 'FIFO',
+          decimal_places: 2,
+          allow_lot_overlap: true
+        }
+      });
+      expect(received).toEqual(expected);
+    });
+  });
+
+  test('crypt
