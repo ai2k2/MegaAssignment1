@@ -157,4 +157,10 @@ describe('deposit assets', () => {
       withdrawal_code: 'BNB',
       withdrawal_amount: '2'
     });
-    const deposit_2 = depositFactor
+    const deposit_2 = depositFactory({
+      timestamp: '2019-01-01T01:00:00Z',
+      deposit_amount: '10',
+      deposit_code: 'BTC',
+      fee_tx_ids: [deposit_2_fee.tx_id]
+    });
+    const trade_1_fee = withdrawalF
