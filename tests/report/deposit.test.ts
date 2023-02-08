@@ -170,4 +170,11 @@ describe('deposit assets', () => {
     });
     const trade_1 = tradeFactory({
       timestamp: '2019-01-02T01:00:00Z',
-      si
+      side: 'SELL',
+      base_amount: '5',
+      base_code: 'BTC',
+      quote_amount: '200',
+      quote_code: 'ETH',
+      fee_tx_ids: [trade_1_fee.tx_id]
+    });
+    const transac
