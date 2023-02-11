@@ -177,4 +177,10 @@ describe('deposit assets', () => {
       quote_code: 'ETH',
       fee_tx_ids: [trade_1_fee.tx_id]
     });
-    const transac
+    const transactions = [deposit_1, deposit_2, deposit_2_fee, trade_1, trade_1_fee];
+    const prices = [
+      {
+        tx_id: deposit_1.tx_id,
+        timestamp: deposit_1.timestamp,
+        base_code: 'BNB',
+     
