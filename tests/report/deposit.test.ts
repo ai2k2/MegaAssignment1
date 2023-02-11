@@ -191,4 +191,14 @@ describe('deposit assets', () => {
         timestamp: deposit_2.timestamp,
         base_code: 'BTC',
         quote_code: 'USD',
-        price: '
+        price: '1000'
+      },
+      {
+        tx_id: deposit_2.tx_id,
+        timestamp: deposit_2.timestamp,
+        base_code: 'ETH',
+        quote_code: 'USD',
+        price: '50'
+      },
+      {
+        tx_id: deposit_2
