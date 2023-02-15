@@ -218,4 +218,12 @@ describe('deposit assets', () => {
         tx_id: trade_1.tx_id,
         timestamp: trade_1.timestamp,
         base_code: 'ETH',
+        quote_code: 'USD',
+        price: '100'
+      },
+      {
+        tx_id: trade_1_fee.tx_id,
+        timestamp: trade_1_fee.timestamp,
+        base_code: 'BNB',
+        quote_code: 'USD',
         
