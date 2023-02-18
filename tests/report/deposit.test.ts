@@ -232,4 +232,9 @@ describe('deposit assets', () => {
     const priceMethods: PriceMethod[] = ['BASE', 'QUOTE'];
     const accountingMethods: CostBasisMethod[] = ['FIFO', 'LIFO', 'HIFO'];
     priceMethods.forEach((price_method) => {
-    
+      accountingMethods.forEach((cost_basis_method) => {
+        const received = createReport({
+          transactions,
+          prices,
+          config: {
+            local_curr
