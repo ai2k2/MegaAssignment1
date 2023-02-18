@@ -226,4 +226,10 @@ describe('deposit assets', () => {
         timestamp: trade_1_fee.timestamp,
         base_code: 'BNB',
         quote_code: 'USD',
-        
+        price: '100'
+      }
+    ];
+    const priceMethods: PriceMethod[] = ['BASE', 'QUOTE'];
+    const accountingMethods: CostBasisMethod[] = ['FIFO', 'LIFO', 'HIFO'];
+    priceMethods.forEach((price_method) => {
+    
