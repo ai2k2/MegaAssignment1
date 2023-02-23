@@ -237,4 +237,12 @@ describe('deposit assets', () => {
           transactions,
           prices,
           config: {
-            local_curr
+            local_currency: 'USD',
+            price_method,
+            cost_basis_method,
+            decimal_places: 2
+          }
+        });
+        let expected = taxReportFactory({
+          report: {
+            2019:
