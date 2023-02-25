@@ -253,4 +253,11 @@ describe('deposit assets', () => {
                   decrease: '5'
                 },
                 ETH: {
-                  
+                  holdings: '200',
+                  increase: '200',
+                  decrease: '0'
+                },
+                BNB: {
+                  holdings: '6',
+                  increase: '10',
+            
