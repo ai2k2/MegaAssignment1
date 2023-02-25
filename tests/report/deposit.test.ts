@@ -245,4 +245,12 @@ describe('deposit assets', () => {
         });
         let expected = taxReportFactory({
           report: {
-            2019:
+            2019: {
+              assets: {
+                BTC: {
+                  holdings: '5',
+                  increase: '10',
+                  decrease: '5'
+                },
+                ETH: {
+                  
