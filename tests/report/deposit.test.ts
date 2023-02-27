@@ -260,4 +260,11 @@ describe('deposit assets', () => {
                 BNB: {
                   holdings: '6',
                   increase: '10',
-            
+                  decrease: '4'
+                }
+              },
+              short: [
+                {
+                  asset: 'BNB',
+                  asset_amount: '2',
+       
