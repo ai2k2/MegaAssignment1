@@ -267,4 +267,8 @@ describe('deposit assets', () => {
                 {
                   asset: 'BNB',
                   asset_amount: '2',
-       
+                  date_acquired: '2019-01-01T01:00:00Z',
+                  date_sold: '2019-01-01T01:00:00Z',
+                  proceeds: '100',
+                  cost_basis: '100',
+                  tx_id_l
