@@ -271,4 +271,10 @@ describe('deposit assets', () => {
                   date_sold: '2019-01-01T01:00:00Z',
                   proceeds: '100',
                   cost_basis: '100',
-                  tx_id_l
+                  tx_id_lot: deposit_1.tx_id,
+                  tx_id_sale: deposit_2_fee.tx_id
+                },
+                {
+                  asset: 'BTC',
+                  asset_amount: '5',
+                  date
