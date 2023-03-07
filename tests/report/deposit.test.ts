@@ -277,4 +277,7 @@ describe('deposit assets', () => {
                 {
                   asset: 'BTC',
                   asset_amount: '5',
-                  date
+                  date_acquired: '2019-01-01T01:00:00Z',
+                  date_sold: '2019-01-02T01:00:00Z',
+                  proceeds: price_method === 'QUOTE' ? '19800' : '4800',
+                  cost
