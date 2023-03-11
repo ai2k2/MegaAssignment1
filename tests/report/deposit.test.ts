@@ -280,4 +280,10 @@ describe('deposit assets', () => {
                   date_acquired: '2019-01-01T01:00:00Z',
                   date_sold: '2019-01-02T01:00:00Z',
                   proceeds: price_method === 'QUOTE' ? '19800' : '4800',
-                  cost
+                  cost_basis: '5050',
+                  tx_id_lot: deposit_2.tx_id,
+                  tx_id_sale: trade_1.tx_id
+                },
+                {
+                  asset: 'BNB',
+        
