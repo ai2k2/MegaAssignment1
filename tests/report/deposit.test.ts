@@ -298,4 +298,11 @@ describe('deposit assets', () => {
             }
           },
           config: {
-            local_curr
+            local_currency: 'USD',
+            price_method,
+            cost_basis_method,
+            decimal_places: 2,
+            allow_lot_overlap: true
+          }
+        });
+        expect(received).toEqual(expected
