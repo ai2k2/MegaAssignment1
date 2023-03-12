@@ -291,4 +291,11 @@ describe('deposit assets', () => {
                   date_sold: '2019-01-02T01:00:00Z',
                   proceeds: '200',
                   cost_basis: '100',
-   
+                  tx_id_lot: deposit_1.tx_id,
+                  tx_id_sale: trade_1_fee.tx_id
+                }
+              ]
+            }
+          },
+          config: {
+            local_curr
