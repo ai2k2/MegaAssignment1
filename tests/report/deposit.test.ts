@@ -305,4 +305,8 @@ describe('deposit assets', () => {
             allow_lot_overlap: true
           }
         });
-        expect(received).toEqual(expected
+        expect(received).toEqual(expected);
+      });
+    });
+  });
+});
