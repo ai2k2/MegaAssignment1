@@ -154,3 +154,69 @@ describe('withdrawal', () => {
       const priceOption = 'QUOTE';
       test('FIFO', () => {
         const received = createReport({
+          transactions,
+          prices,
+          config: {
+            local_currency: 'USD',
+            price_method: priceOption,
+            cost_basis_method: 'FIFO',
+            decimal_places: 2
+          }
+        });
+        let expected = taxReportFactory({
+          report: {
+            2018: {
+              assets: {
+                BTC: {
+                  holdings: '9',
+                  increase: '10',
+                  decrease: '1'
+                },
+                USD: {
+                  holdings: '-1000',
+                  increase: '0',
+                  decrease: '1000'
+                }
+              },
+              unmatched: [
+                {
+                  asset: 'USD',
+                  asset_amount: '1000',
+                  cost_basis: '0',
+                  date_acquired: '2018-01-01T01:00:00Z',
+                  date_sold: '2018-01-01T01:00:00Z',
+                  proceeds: '1000',
+                  tx_id_sale: trade_1.tx_id
+                }
+              ],
+              long: [],
+              income: [],
+              short: [
+                {
+                  asset: 'BTC',
+                  asset_amount: '1',
+                  date_acquired: '2018-01-01T01:00:00Z',
+                  date_sold: '2018-01-02T01:00:00Z',
+                  proceeds: '4000',
+                  cost_basis: '100',
+                  tx_id_lot: trade_1.tx_id,
+                  tx_id_sale: withdrawal_1.tx_id
+                }
+              ],
+              lost: [],
+              interest_income: []
+            }
+          },
+          config: {
+            local_currency: 'USD',
+            price_method: priceOption,
+            cost_basis_method: 'FIFO',
+            decimal_places: 2,
+            allow_lot_overlap: true
+          }
+        });
+        expect(received).toEqual(expected);
+      });
+    });
+  });
+});
