@@ -557,3 +557,213 @@ describe('INCOME transaction', () => {
         })
       )
     ]);
+    const prices = List([
+      IMap({
+        base_code: 'BTC',
+        quote_code: 'USD',
+        price: '100',
+        tx_id: '1'
+      })
+    ]);
+    const actualBaseMethod = makeLotsAndDisposals({
+      transactions,
+      prices,
+      priceMethod: 'BASE',
+      localCurrency: 'USD'
+    });
+    const expected = IMap({
+      taxLotList: List([
+        new TaxLot({
+          unix: 1514799000,
+          assetCode: 'BTC',
+          assetAmount: new BigNumber('1'),
+          basisCode: 'USD',
+          basisAmount: new BigNumber('100'),
+          transactionId: '1',
+          isIncome: true
+        })
+      ]),
+      disposalList: List([])
+    });
+
+    expect(actualBaseMethod.equals(expected)).toEqual(true);
+    expect(actualBaseMethod.getIn(['taxLotList', 0]).pricePerUnit).toEqual(new BigNumber('100'));
+  });
+  test('TaxLot from INCOME with fee', () => {
+    const transactions: List<ITransaction> = List([
+      IMap(
+        incomeFactory({
+          timestamp: '2018-01-01T09:30:00Z',
+          tx_id: '1',
+          income_amount: '1',
+          income_code: 'BTC',
+          fee_tx_ids: ['2']
+        })
+      ),
+      IMap(
+        withdrawalFactory({
+          timestamp: '2018-01-01T09:30:00Z',
+          tx_id: '2',
+          withdrawal_amount: '1',
+          withdrawal_code: 'USD'
+        })
+      )
+    ]);
+    const prices = List([
+      IMap({
+        base_code: 'BTC',
+        quote_code: 'USD',
+        price: '100',
+        tx_id: '1'
+      })
+    ]);
+    const actualBaseMethod = makeLotsAndDisposals({
+      transactions,
+      prices,
+      priceMethod: 'BASE',
+      localCurrency: 'USD'
+    });
+    const expected = IMap({
+      taxLotList: List([
+        new TaxLot({
+          unix: 1514799000,
+          assetCode: 'BTC',
+          assetAmount: new BigNumber('1'),
+          basisCode: 'USD',
+          basisAmount: new BigNumber('101'),
+          transactionId: '1',
+          isIncome: true
+        })
+      ]),
+      disposalList: List([
+        new Disposal({
+          unix: 1514799000,
+          assetCode: 'USD',
+          assetAmount: new BigNumber('1'),
+          proceedsCode: 'USD',
+          proceedsAmount: new BigNumber('1'),
+          transactionId: '2'
+        })
+      ])
+    });
+
+    expect(actualBaseMethod.equals(expected)).toEqual(true);
+    expect(actualBaseMethod.getIn(['taxLotList', 0]).pricePerUnit).toEqual(new BigNumber('101'));
+  });
+});
+
+describe('WITHDRAWAL transaction', () => {
+  test('with no fee', () => {
+    const transactions: List<ITransaction> = List([
+      IMap(
+        withdrawalFactory({
+          timestamp: '2018-01-01T09:30:00Z',
+          tx_id: '1',
+          withdrawal_amount: '1',
+          withdrawal_code: 'BTC'
+        })
+      )
+    ]);
+    const prices = List([
+      IMap({
+        base_code: 'BTC',
+        quote_code: 'USD',
+        price: '100',
+        tx_id: '1'
+      })
+    ]);
+    const actualBaseMethod = makeLotsAndDisposals({
+      transactions,
+      prices,
+      priceMethod: 'BASE',
+      localCurrency: 'USD'
+    });
+    const expected = IMap({
+      taxLotList: List([]),
+      disposalList: List([
+        new Disposal({
+          unix: 1514799000,
+          assetCode: 'BTC',
+          assetAmount: new BigNumber('1'),
+          proceedsCode: 'USD',
+          proceedsAmount: new BigNumber('100'),
+          transactionId: '1'
+        })
+      ])
+    });
+
+    expect(actualBaseMethod.equals(expected)).toEqual(true);
+  });
+  test('with fee matching withdrawn asset', () => {
+    const transactions: List<ITransaction> = List([
+      IMap(
+        withdrawalFactory({
+          timestamp: '2018-01-01T09:30:00Z',
+          tx_id: '1',
+          withdrawal_amount: '1',
+          withdrawal_code: 'BTC',
+          fee_tx_ids: ['2']
+        })
+      ),
+      IMap(
+        withdrawalFactory({
+          timestamp: '2018-01-01T09:30:00Z',
+          tx_id: '2',
+          withdrawal_amount: '0.01',
+          withdrawal_code: 'BTC'
+        })
+      )
+    ]);
+    const prices = List([
+      IMap({
+        base_code: 'BTC',
+        quote_code: 'USD',
+        price: '100',
+        tx_id: '1'
+      }),
+      IMap({
+        base_code: 'BTC',
+        quote_code: 'USD',
+        price: '100',
+        tx_id: '2'
+      })
+    ]);
+    const actualBaseMethod = makeLotsAndDisposals({
+      transactions,
+      prices,
+      priceMethod: 'BASE',
+      localCurrency: 'USD'
+    });
+    const expected = IMap({
+      taxLotList: List([]),
+      disposalList: List([
+        new Disposal({
+          unix: 1514799000,
+          assetCode: 'BTC',
+          assetAmount: new BigNumber('1'),
+          proceedsCode: 'USD',
+          proceedsAmount: new BigNumber('99'),
+          transactionId: '1'
+        }),
+        new Disposal({
+          unix: 1514799000,
+          assetCode: 'BTC',
+          assetAmount: new BigNumber('0.01'),
+          proceedsCode: 'USD',
+          proceedsAmount: new BigNumber('1'),
+          transactionId: '2'
+        })
+      ])
+    });
+
+    expect(actualBaseMethod.toJS()).toEqual(expected.toJS());
+  });
+  test('with fee not matching', () => {
+    const transactions: List<ITransaction> = List([
+      IMap(
+        withdrawalFactory({
+          timestamp: '2018-01-01T09:30:00Z',
+          tx_id: '1',
+          withdrawal_amount: '1',
+          withdrawal_code: 'BTC',
+          fee_tx_ids: ['2']
