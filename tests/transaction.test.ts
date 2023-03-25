@@ -147,3 +147,209 @@ describe('TRADE transaction', () => {
             new Disposal({
               unix: 1514799000,
               assetCode: 'USD',
+              assetAmount: new BigNumber('100'),
+              proceedsCode: 'USD',
+              proceedsAmount: new BigNumber('100'),
+              transactionId: '1'
+            })
+          ])
+        });
+        expect(actualBaseMethod.equals(expected)).toEqual(true);
+        expect(actualQuoteMethod.equals(expected)).toEqual(true);
+
+        expect(actualBaseMethod.getIn(['taxLotList', 0]).pricePerUnit).toEqual(
+          new BigNumber('100')
+        );
+        expect(actualQuoteMethod.getIn(['taxLotList', 0]).pricePerUnit).toEqual(
+          new BigNumber('100')
+        );
+      });
+      test('type: TRADE, assets: crypto/fiat, side: BUY | NONE, fee: fiat, price method: BASE & QUOTE', () => {
+        const transactions: List<ITransaction> = List([
+          IMap(
+            tradeFactory({
+              timestamp: '2018-01-01T09:30:00Z',
+              tx_id: '1',
+              side: 'NONE',
+              base_amount: '1',
+              base_code: 'BTC',
+              quote_amount: '100',
+              quote_code: 'USD',
+              fee_tx_ids: ['2']
+            })
+          ),
+          IMap(
+            withdrawalFactory({
+              timestamp: '2018-01-01T09:30:00Z',
+              tx_id: '2',
+              withdrawal_amount: '5',
+              withdrawal_code: 'USD'
+            })
+          )
+        ]);
+        const prices = List([
+          IMap({
+            base_code: 'BTC',
+            quote_code: 'USD',
+            price: '100',
+            tx_id: '1'
+          }),
+          IMap({
+            base_code: 'USD',
+            quote_code: 'USD',
+            price: '1',
+            tx_id: '1'
+          })
+        ]);
+        const actualBaseMethod = makeLotsAndDisposals({
+          transactions,
+          prices,
+          priceMethod: 'BASE',
+          localCurrency: 'USD'
+        });
+        const actualQuoteMethod = makeLotsAndDisposals({
+          transactions,
+          prices,
+          priceMethod: 'QUOTE',
+          localCurrency: 'USD'
+        });
+        const expected = IMap({
+          taxLotList: List([
+            new TaxLot({
+              unix: 1514799000,
+              assetCode: 'BTC',
+              assetAmount: new BigNumber('1'),
+              basisCode: 'USD',
+              basisAmount: new BigNumber('105'),
+              transactionId: '1',
+              isIncome: false
+            })
+          ]),
+          disposalList: List([
+            new Disposal({
+              unix: 1514799000,
+              assetCode: 'USD',
+              assetAmount: new BigNumber('100'),
+              proceedsCode: 'USD',
+              proceedsAmount: new BigNumber('100'),
+              transactionId: '1'
+            }),
+            new Disposal({
+              unix: 1514799000,
+              assetCode: 'USD',
+              assetAmount: new BigNumber('5'),
+              proceedsCode: 'USD',
+              proceedsAmount: new BigNumber('5'),
+              transactionId: '2'
+            })
+          ])
+        });
+
+        expect(actualBaseMethod.equals(expected)).toEqual(true);
+        expect(actualQuoteMethod.equals(expected)).toEqual(true);
+
+        expect(actualBaseMethod.getIn(['taxLotList', 0]).pricePerUnit).toEqual(
+          new BigNumber('105')
+        );
+        expect(actualQuoteMethod.getIn(['taxLotList', 0]).pricePerUnit).toEqual(
+          new BigNumber('105')
+        );
+      });
+    });
+    describe('SELL trade', () => {
+      test('type: TRADE, assets: crypto/fiat, side: SELL, fee: crypto, price method: BASE & QUOTE', () => {
+        const transactions: List<ITransaction> = List([
+          IMap(
+            tradeFactory({
+              timestamp: '2018-01-01T09:30:00Z',
+              tx_id: '1',
+              side: 'SELL',
+              base_amount: '1',
+              base_code: 'BTC',
+              quote_amount: '100',
+              quote_code: 'USD',
+              fee_tx_ids: ['2']
+            })
+          ),
+          IMap(
+            withdrawalFactory({
+              tx_id: '2',
+              timestamp: '2018-01-01T09:30:00Z',
+              withdrawal_amount: '0.1',
+              withdrawal_code: 'BTC'
+            })
+          )
+        ]);
+        const prices = List([
+          IMap({
+            base_code: 'BTC',
+            quote_code: 'USD',
+            price: '100',
+            tx_id: '1'
+          }),
+          IMap({
+            base_code: 'BTC',
+            quote_code: 'USD',
+            price: '100',
+            tx_id: '2'
+          })
+        ]);
+        const actualBaseMethod = makeLotsAndDisposals({
+          transactions,
+          prices,
+          priceMethod: 'BASE',
+          localCurrency: 'USD'
+        });
+        const actualQuoteMethod = makeLotsAndDisposals({
+          transactions,
+          prices,
+          priceMethod: 'QUOTE',
+          localCurrency: 'USD'
+        });
+        const expected = IMap({
+          taxLotList: List([
+            new TaxLot({
+              unix: 1514799000,
+              assetCode: 'USD',
+              assetAmount: new BigNumber('100'),
+              basisCode: 'USD',
+              basisAmount: new BigNumber('100'),
+              transactionId: '1',
+              isIncome: false
+            })
+          ]),
+          disposalList: List([
+            new Disposal({
+              unix: 1514799000,
+              assetCode: 'BTC',
+              assetAmount: new BigNumber('1'),
+              proceedsCode: 'USD',
+              // sell fee reduce proceeds
+              proceedsAmount: new BigNumber('90'),
+              transactionId: '1'
+            }),
+            new Disposal({
+              unix: 1514799000,
+              assetCode: 'BTC',
+              assetAmount: new BigNumber('0.1'),
+              proceedsCode: 'USD',
+              proceedsAmount: new BigNumber('10'),
+              transactionId: '2'
+            })
+          ])
+        });
+        expect(actualBaseMethod.toJS()).toEqual(expected.toJS());
+        expect(actualQuoteMethod.toJS()).toEqual(expected.toJS());
+        expect(actualBaseMethod.getIn(['taxLotList', 0]).pricePerUnit).toEqual(new BigNumber('1'));
+        expect(actualQuoteMethod.getIn(['taxLotList', 0]).pricePerUnit).toEqual(new BigNumber('1'));
+      });
+      test('type: TRADE, assets: crypto/fiat, side: BUY, fee: foreign crypto, price method: BASE & QUOTE', () => {
+        const transactions: List<ITransaction> = List([
+          IMap(
+            tradeFactory({
+              timestamp: '2018-01-01T09:30:00Z',
+              tx_id: '1',
+              side: 'SELL',
+              base_amount: '1',
+              base_code: 'BTC',
+              quote_amount: '100',
